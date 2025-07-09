@@ -8,7 +8,7 @@ int main(int argc, char* argv[]){
     OGL_VertexObject bmp;
 
     OGL_CreateTextureQuad(bmp);
-    OGL_LoadBitmap(bmp, "assets/mapMask.bmp");
+    OGL_LoadBitmap(bmp, "assets/pn003.bmp");
 
     /* Graphics pipeline for the shader program */
     GLuint s1;

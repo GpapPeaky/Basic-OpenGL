@@ -13,13 +13,11 @@ int SDL2_InitWin(void){
     }
 
     /* Initialising window and renderer */
-    SDL2_Win = SDL_CreateWindow("SDL Window", 0, 0, 1920, 1080, SDL_WINDOW_OPENGL);
+    SDL2_Win = SDL_CreateWindow("SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 432, 500, SDL_WINDOW_OPENGL);
     if(SDL2_Win == NULL){
         std::fprintf(stderr, "OGL_SDL2_ERR: Failed to create window: %s\n", SDL_GetError());
         return FAILURE;
     }
-
-    SDL_SetWindowFullscreen(SDL2_Win, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
     /* Have this globally saved, since it is useful */
     SDL_GetWindowSize(SDL2_Win, (int*)&SDL2_WinWidth, (int*)&SDL2_WinHeight);
