@@ -7,9 +7,13 @@
 #include <vector>   /* For vectors */
 
 /**
- * @brief Contains The Vertex Buffer Objects and Vertex Array Object
+ * @brief Contains The Vertex Buffer Objects, Vertex Array Object
+ * and Index Array Object (as well as the vertices count for
+ * some small optimizations). This object type is polymorhpic
+ * and we can basically use it for displaying both quads/triangles
+ * and textured quads.
  * 
- * @warning ##  In order to use these objects, we need regferences
+ * @warning ##  In order to use these objects, we need references
  * and not pointers with allocated memory (for some reason I don't
  * know).
  */
@@ -30,7 +34,7 @@ typedef struct OGL_VertexObject{
     
     3 + 3 + 2 floats! */
 
-    /* TODO: Add TRS/MVP */
+    /* TODO: Add TRS/MVP? */
 
     /* By adding more 'VBOs' we can give more data to each object */
     /* And if it is not required, we simply do not engage with the fields */
