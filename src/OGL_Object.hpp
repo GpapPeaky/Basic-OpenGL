@@ -18,21 +18,26 @@
  * know).
  */
 typedef struct OGL_VertexObject{
-    GLuint VAO; /* Vertex array object */
-    GLuint VBO; /* positions: vertex buffer object, It is important to note
-    that each vertex in the VBO will consist of 3 floats, 3 for position, 3 for colour
-    else the OGL_VertexObject will be nullified. Objects that only have 3 floats
-    in each vertex, have only position data, and not colour data, they 
-    are used for testing, OGL_VertexObject can ALSO have texture coordinates
-    in order to load bitmaps onto quads, so we have another 'field'
-    inside the VBO that will consist of texture coordinates
-    (see: OGL_TextureQuad.cpp l:7) so we have this format:
-    
-              // pos         // colour      // texture
-    vertex 1: X1, Y1, Z1,    R1, G1, B1,    S1, T1 
-    vertex 2: X2, Y2, Z2,    R2, G2, B2,    S2, T2 
-    
-    3 + 3 + 2 floats! */
+    GLuint VAO; /* The vertex array object:
+        This tells us how the bound VBO will be used,
+        which means we can have many VBOs for one VAO. It
+        appears to not be a good idea.
+    */
+    GLuint VBO; /* The vertex buffer object:
+        It is important to note
+        that each vertex in the VBO will consist of 3 floats, 3 for position, 3 for colour
+        else the OGL_VertexObject will be nullified. Objects that only have 3 floats
+        in each vertex, have only position data, and not colour data, they 
+        are used for testing, OGL_VertexObject can ALSO have texture coordinates
+        in order to load bitmaps onto quads, so we have another 'field'
+        inside the VBO that will consist of texture coordinates
+        (see: OGL_TextureQuad.cpp l:7) so we have this format:
+
+                  // pos         // colour      // texture
+        vertex 1: X1, Y1, Z1,    R1, G1, B1,    S1, T1 
+        vertex 2: X2, Y2, Z2,    R2, G2, B2,    S2, T2 
+
+        3 + 3 + 2 floats! */
 
     /* TODO: Add TRS/MVP? */
 
