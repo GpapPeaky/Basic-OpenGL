@@ -7,12 +7,14 @@ int main(int argc, char* argv[]){
 
     OGL_VertexObject bmp;
 
-    OGL_CreateTextureQuad(bmp);
-    OGL_LoadBitmapToObject(bmp, "assets/pn003.bmp");
+    // OGL_CreateTextureQuad(bmp);
+    // OGL_LoadBitmapToObject(bmp, "assets/pn003.bmp");
+
+    OGL_CreateQuadVertexFC(bmp);
 
     /* Graphics pipeline for the shader program */
     GLuint s1;
-    s1 = OGL_CreateGraphicsPipeline(OGLS_TextureV, OGLS_TextureF);
+    s1 = OGL_CreateGraphicsPipeline(OGLS_RainbowV, OGLS_RainbowF);
     
     /* Main loop */
     bool SDL2_Quit = false;
