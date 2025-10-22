@@ -14,7 +14,7 @@ int main(int argc, char* argv[]){
 
     /* Graphics pipeline for the shader program */
     GLuint s1;
-    s1 = OGL_CreateGraphicsPipeline(OGLS_RainbowV, OGLS_RainbowF);
+    s1 = OGL_CreateGraphicsPipeline(OGLS_DummyV, OGLS_DummyF);
     
     /* Main loop */
     bool SDL2_Quit = false;
@@ -23,11 +23,16 @@ int main(int argc, char* argv[]){
 
         /* Updates to assets / sprites / objects in general */
 
+        /* Passed as a uniform variable, each frame */
+        float time = SDL_GetTicks() / 1000.0f;
+        int timeLoc = glGetUniformLocation(s1, "u_time");
+        glUniform1f(timeLoc, time); /* Pass as uniform one float */
+        
         /* OpenGL rendering functions */
         OGL_SetScreenBackground(1.f, 1.f, 0.f, 1.f);
-
+        
         /* Rendering order matters */
-        OGL_PreDraw(s1);
+        OGL_PreDraw(s1); /* Shader to use */
         OGL_DrawObject(bmp);
 
         SDL_GL_SwapWindow(SDL2_Win);
