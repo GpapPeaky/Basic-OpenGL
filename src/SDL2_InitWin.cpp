@@ -33,6 +33,9 @@ int SDL2_InitWin(void){
         std::fprintf(stderr, "OGL_SDL2_ERR: Failed to create renderer: %s\n", SDL_GetError());
         return FAILURE;
     }
+    
+    /* Relative mouse coordinates */
+    SDL_SetRelativeMouseMode(SDL_TRUE);
 
     std::printf("Window Size: %ux%u, Aspect Ratio: %f\n", SDL2_WinWidth, SDL2_WinHeight, SDL2_AspectRatio);
 

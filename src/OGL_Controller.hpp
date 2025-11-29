@@ -6,16 +6,21 @@
 #include "../ThirdParty/SDL2/include/SDL2/SDL.h"
 
 typedef struct OGL_Controller{
-    OGL_Camera* cam;                    /* Controller camera */
-    float speed;                        /* Controller speed */
-    float sensitivity;                  /* Controller mouse sensitivity */
+    OGL_Camera* cam;                     /* Controller camera */
+    
+    float speed;                         /* Controller speed */
+    float sensitivity;                   /* Controller mouse sensitivity */
 
-    SDL_Scancode forwardScanode;        /* Scancode for forward movement */
-    SDL_Scancode backwardScancode;      /* Scancode for backward movement */
-    SDL_Scancode leftwardScancode;      /* Scancode for leftward movement */
-    SDL_Scancode rightwadScancode;      /* Scancode for rightward movement */
-    SDL_Scancode upwardScancode;        /* Scancode for upward movement */
-    SDL_Scancode downwardScancode;      /* Scancode for downward movement */
+    SDL_Scancode* forwardScancode;       /* Scancode for forward movement */
+    SDL_Scancode* backwardScancode;      /* Scancode for backward movement */
+    SDL_Scancode* leftwardScancode;      /* Scancode for leftward movement */
+    SDL_Scancode* rightwardScancode;     /* Scancode for rightward movement */
+    SDL_Scancode* upwardScancode;        /* Scancode for upward movement */
+    SDL_Scancode* downwardScancode;      /* Scancode for downward movement */
+
+    int firstMouse;                      /* Flag to avoid sudden mouse jumps on input */
+    float lastX;                         /* Last mouse screen X */
+    float lastY;                         /* Last mouse screen Y */
 }OGL_Controller;
 
 /**
@@ -26,7 +31,7 @@ typedef struct OGL_Controller{
  * 
  * @returns The new controller object
  */
-OGL_Controller* OGL_NewController(float speed, float sensitivity);
+OGL_Controller* OGL_CreateController(float speed, float sensitivity);
 
 /**
  * @brief Bind a camera to a controller
@@ -104,3 +109,23 @@ void OGL_BindControllerWASD(OGL_Controller* control);
  * @param control Controller to bind
  */
 void OGL_BindControllerWASDShiftSpace(OGL_Controller* control);
+
+
+/**
+ * @brief Handle controller's keyboard input 
+ *
+ * @param control Controller to handle
+ * @param keyState State of pressed keys
+ * @param dt Time delta to apply speeds
+ */
+void OGL_HandleControllerKeyboard(OGL_Controller* control, const Uint8* keyState, float dt);
+
+/**
+ * @brief Handle controller's mouse movement
+ *
+ * @param control Controller to handle 
+ * @param xRel Relative mouse x coordinate
+ * @param yRel Relative mouse y coordinate
+ */
+void OGL_HandleControllerMouse(OGL_Controller* control, float xRel, float yRel);
+

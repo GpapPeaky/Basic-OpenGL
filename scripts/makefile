@@ -13,7 +13,10 @@ $(SRCP)OGL_Triangle.cpp\
 $(SRCP)OGL_Quad.cpp\
 $(SRCP)OGL_Shader.cpp\
 $(SRCP)OGL_Object.cpp\
-$(SRCP)OGL_TextureQuad.cpp
+$(SRCP)OGL_TextureQuad.cpp\
+$(SRCP)OGL_Cube.cpp\
+$(SRCP)OGL_Camera.cpp\
+$(SRCP)OGL_Controller.cpp
 
 # Third Party
 INCL = -IThirdParty/SDL2/include/

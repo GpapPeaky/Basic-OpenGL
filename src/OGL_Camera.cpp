@@ -27,4 +27,6 @@ void OGL_UpdateCamera(OGL_Camera* cam){
     cam->front = glm::normalize(front);
     cam->right = glm::normalize(glm::cross(cam->front, cam->worldUp));
     cam->up    = glm::normalize(glm::cross(cam->right, cam->front));
+
+    return;
 }
