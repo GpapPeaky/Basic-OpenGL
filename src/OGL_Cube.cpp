@@ -1,6 +1,8 @@
 #include "OGL_Cube.hpp"
 
 void OGL_CreateCubeVertexObject(OGL_VertexObject& object){
+    // TODO
+
     object.verticesCount = 6; /* 6 vertices for quads (2 triangles) */
 
     /* Lives on the CPU */
