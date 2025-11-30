@@ -3,6 +3,8 @@
 #include "../ThirdParty/glm/glm.hpp"
 #include "../ThirdParty/glm/gtc/matrix_transform.hpp"
 
+#include "SDL2_InitWin.hpp" /* Window dimensions */
+
 typedef enum OGL_CameraMovement{
     OGL_CAMERA_FORWARD,
     OGL_CAMERA_BACKWARD,
@@ -16,6 +18,11 @@ typedef struct OGL_Camera{
     glm::vec3 up;           /* */
     glm::vec3 right;        /* */
     glm::vec3 worldUp;      /* */
+
+    float fov;
+    float aspect;
+    float nearPlane;
+    float farPlane;
 
     float yaw;              /* Euler angles */
     float pitch;
@@ -41,6 +48,15 @@ OGL_Camera* OGL_CreateCamera(glm::vec3 pos, glm::vec3 up, float yaw, float pitch
  * @returns The camera's view matrix, need for vertex shader
  */
 glm::mat4 OGL_GetViewMatrix(OGL_Camera* cam);
+
+/**
+ * @brief Get camera projection matrix
+ * 
+ * @param cam Camera
+ * 
+ * @returns The camera's prohection matrix
+ */
+glm::mat4 OGL_GetProjMatrix(OGL_Camera* cam);
 
 /**
  * @brief Update the cameras matrices

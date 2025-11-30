@@ -2,6 +2,8 @@
 
 #include "../ThirdParty/SDL2/include/SDL2/SDL.h"    /* SDL2 */
 #include "../ThirdParty/GLAD/include/glad/glad.h"   /* GLAD */
+#include "../ThirdParty/glm/glm.hpp"                /* GLM */
+#include "../ThirdParty/glm/gtc/matrix_transform.hpp"
 
 #include <iostream> /* Printing */
 #include <vector>   /* For vectors */
@@ -50,17 +52,15 @@ typedef struct OGL_VertexObject{
 }OGL_VertexObject;
 
 /**
- * @brief Updates the position of an object by 
- * modifying it's VBO, specifically the vertices that hold
- * position data and not colour
- * 
- * @param object Object to reposition
- * @param dx X coordinate change
- * @param dy Y coordinate change
- * @param dz Z coordinate change
- * 
- * @note Keep in mind that the center is not
- * in the top left corner of the screen but at
- * the center of it
+ * @brief Main object type, required pos/rot/scl
+ * data in the CPU for updating
  */
-void OGL_UpdateObjectPosition(OGL_VertexObject& object, GLfloat dx, GLfloat dy, GLfloat dz);
+typedef struct OGL_Object{
+    OGL_VertexObject mesh; /* Mesh, GPU data */
+
+    /* CPU data, TRS to get the model */
+
+    float position[3];
+    float rotation[3];  
+    float scale[3];
+}OGL_Object;
