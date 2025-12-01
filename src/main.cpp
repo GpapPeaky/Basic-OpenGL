@@ -62,7 +62,6 @@ int main(int argc, char* argv[]){
     OGL_BindControllerWASD(ctrl);
 
     /* Miscellanious */
-
     float theta = 0; /* Rotation */
     
     /* Main loop, and timing */
