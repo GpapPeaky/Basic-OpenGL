@@ -149,7 +149,7 @@ std::string OGLS_TRS_MVP_TextureF =
     "\n"
     "void main()\n"
     "{\n"
-    "    FragColor = texture(ourTexture, TexCoord); // Sample the texture at the given coordinates\n"
+    "    FragColor = texture(ourTexture, 1.0 - TexCoord); // Sample the texture at the given coordinates\n"
     "}\n";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
