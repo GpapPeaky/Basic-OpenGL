@@ -14,14 +14,29 @@ int main(int argc, char* argv[]){
     plane->rotation[0] = 0.f; plane->rotation[1] = -0.6f; plane->rotation[2] = 0.f;
     plane->scale[0]    = 10.f; plane->scale[1]    = 0.1f; plane->scale[2]    = 10.f;
     
-    /* Obj creation */
+    /* Objects creation */
     GLuint TRS_MVP_TextureShader = OGL_CreateGraphicsPipeline(OGLS_TRS_MVP_TextureV, OGLS_TRS_MVP_TextureF);
-    OGL_Object* obj = OGL_CreateObject(TRS_MVP_TextureShader);
-    OGL_CreateCubeVertexObjectT(*obj->mesh);
-    OGL_LoadBitmapToObject(*obj->mesh, "assets/a2.bmp");
-    obj->position[0] = 0.f; obj->position[1] = 0.f; obj->position[2] = 0.f;
-    obj->rotation[0] = 0.f; obj->rotation[1] = 0.f; obj->rotation[2] = 0.f;
-    obj->scale[0]    = 1.f; obj->scale[1]    = 1.f; obj->scale[2]    = 0.02f;
+
+    OGL_Object* obj1 = OGL_CreateObject(TRS_MVP_TextureShader);
+    OGL_CreateCubeVertexObjectT(*obj1->mesh);
+    OGL_LoadBitmapToObject(*obj1->mesh, "assets/a3.bmp");
+    obj1->position[0] = 0.f; obj1->position[1] = 0.f; obj1->position[2] = 0.f;
+    obj1->rotation[0] = 0.f; obj1->rotation[1] = 0.f; obj1->rotation[2] = 0.f;
+    obj1->scale[0]    = 1.f; obj1->scale[1]    = 1.f; obj1->scale[2]    = 0.02f;
+
+    OGL_Object* obj2 = OGL_CreateObject(TRS_MVP_TextureShader);
+    OGL_CreateCubeVertexObjectT(*obj2->mesh);
+    OGL_LoadBitmapToObject(*obj2->mesh, "assets/a3.bmp");
+    obj2->position[0] = 3.f; obj2->position[1] = 0.f; obj2->position[2] = 0.f;
+    obj2->rotation[0] = 0.f; obj2->rotation[1] = 0.f; obj2->rotation[2] = 0.f;
+    obj2->scale[0]    = 1.f; obj2->scale[1]    = 1.f; obj2->scale[2]    = 0.02f;
+
+    OGL_Object* obj3 = OGL_CreateObject(TRS_MVP_TextureShader);
+    OGL_CreateCubeVertexObjectT(*obj3->mesh);
+    OGL_LoadBitmapToObject(*obj3->mesh, "assets/a3.bmp");
+    obj3->position[0] = 2.f; obj3->position[1] = 0.f; obj3->position[2] = 3.f;
+    obj3->rotation[0] = 0.f; obj3->rotation[1] = 0.f; obj3->rotation[2] = 0.f;
+    obj3->scale[0]    = 1.f; obj3->scale[1]    = 1.f; obj3->scale[2]    = 0.02f;
     
     /* Controller creation */
     OGL_Controller* ctrl = OGL_CreateController(5.0f, 0.1f);
@@ -31,7 +46,7 @@ int main(int argc, char* argv[]){
         plane->position[0],
         plane->position[1] + 1.0f,
         plane->position[2]
-    );  
+    );
     glm::vec3 upVec = glm::vec3(0, 1, 0);
     float yaw = -90.0f;
     float pitch = 0.0f;
@@ -56,31 +71,43 @@ int main(int argc, char* argv[]){
 
     bool SDL2_Quit = false;
     while(!SDL2_Quit){
-        OGL_SetScreenBackground(1.f, 1.f, 0.f, 1.f);
-
         Uint32 now = SDL_GetTicks();
         dt = (now - lastTime) / 1000.0f; /* Convert to seconds */
         lastTime = now;
-
+        
         /* Updates to assets / sprites / objects in general */
         SDL2_HandleEvents(SDL2_Quit, ctrl); /* Creates a new event to poll per call (Might need to be optimised) */
-
+        
         const Uint8* keys = SDL_GetKeyboardState(nullptr);
         OGL_HandleControllerKeyboard(ctrl, keys, dt);
         
         /* Rendering order matters */
         /* Need to pass each uniform before drawing */
-
+        
         /* Updates */
-        obj->rotation[1] += 0.2;
-        obj->position[1] = cosf(theta) * 0.5;
+        obj1->rotation[1] += 0.2;
+        obj2->rotation[1] += 0.3;
+        obj3->rotation[1] -= 0.2;
+        obj1->position[1] = cosf(theta) * 0.5;
+        obj2->position[1] = cosf(theta) * 0.5;
+        obj3->position[1] = cosf(theta) * 0.5;
         theta += 0.01f;
 
-        OGL_Render(obj);
+        OGL_SetScreenBackground(0.f, 0.3f, 0.95f, 1.f);
+
+        OGL_Render(obj1);
+        OGL_Render(obj2);
+        OGL_Render(obj3);
         OGL_Render(plane);
 
         /* Swap frame buffers */
         SDL_GL_SwapWindow(SDL2_Win);
+
+        /* Frame limiter to 120 FPS */
+        Uint32 frameTime = SDL_GetTicks() - now;
+        if(frameTime < 1000 / 120){
+            SDL_Delay(1000 / 120 - frameTime);
+        }
     }
 
     /* Cleanup */
