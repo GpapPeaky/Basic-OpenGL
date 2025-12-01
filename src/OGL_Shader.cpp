@@ -10,7 +10,7 @@ GLuint OGL_CompileShader(GLuint type, const std::string& sourceCode){
     }else if(type == GL_FRAGMENT_SHADER){
         shaderObject = glCreateShader(GL_FRAGMENT_SHADER);
     }else{
-        std::fprintf(stderr, "Unlawful shader type provided, while compiling shaders\n");
+        std::fprintf(stderr, "OGL_ERR: Unlawful shader type provided, while compiling shaders\n");
         return 0;
     }
 
@@ -22,6 +22,14 @@ GLuint OGL_CompileShader(GLuint type, const std::string& sourceCode){
                 NULL);
     /* Compile the shader */
     glCompileShader(shaderObject);
+
+    GLint success;
+    glGetShaderiv(shaderObject, GL_COMPILE_STATUS, &success);
+    if(!success){
+        char log[1024];
+        glGetShaderInfoLog(shaderObject, 1024, NULL, log);
+        std::fprintf(stderr, "OGL_ERR: Shader compile error: %s\n", log);
+    }
 
     return shaderObject;
 }

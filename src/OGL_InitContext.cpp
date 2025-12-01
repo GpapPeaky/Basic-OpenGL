@@ -16,15 +16,17 @@ void OGL_InitContext(SDL_Window* window){
 
     OGL_Context = SDL_GL_CreateContext(window);
     if(OGL_Context == NULL){
-        std::fprintf(stderr, "OpenGL context couldn't be initialised %s\n", SDL_GetError());
+        std::fprintf(stderr, "OGL_ERR: OpenGL context couldn't be initialised %s\n", SDL_GetError());
         return;
     }
 
     /* Initialises the OpenGL functions by getting their addresses from the GPU */
     if(!gladLoadGLLoader(SDL_GL_GetProcAddress)){
-        std::fprintf(stderr, "GLAD was not initialised\n");
+        std::fprintf(stderr, "OGL_ERR: GLAD was not initialised\n");
         return;
     }
+
+    glEnable(GL_DEPTH_TEST);
 
     return;
 }

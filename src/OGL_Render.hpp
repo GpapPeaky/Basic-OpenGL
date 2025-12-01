@@ -35,14 +35,14 @@ void OGL_PreDraw(GLuint graphicsPipeline);
  * @note VBO Vertex buffer object to draw from (not required, since the VAO has all the data we want)
  * @note IBO Index buffer object (rendering order of vertices)
  */
-void OGL_Draw(OGL_VertexObject& object);
+void OGL_Draw(OGL_VertexObject* object);
 
 /**
  * @brief Draws an object
  * 
  * @param object Object to draw
  */
-void OGL_DrawObject(OGL_VertexObject& object);
+void OGL_DrawObject(OGL_VertexObject* object);
 
 /**
  * @brief Sets the screen's background

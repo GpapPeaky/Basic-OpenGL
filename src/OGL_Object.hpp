@@ -56,7 +56,7 @@ typedef struct OGL_VertexObject{
  * data in the CPU for updating
  */
 typedef struct OGL_Object{
-    OGL_VertexObject mesh; /* Mesh, GPU data */
+    OGL_VertexObject* mesh; /* Mesh, GPU data */
 
     /* CPU data, TRS to get the model */
 

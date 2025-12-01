@@ -1,7 +1,12 @@
 #pragma once
 
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include "../ThirdParty/glm/glm.hpp"
 #include "../ThirdParty/glm/gtc/matrix_transform.hpp"
+#include "../ThirdParty/glm/gtc/type_ptr.hpp"
+#include "../ThirdParty/glm/gtc/quaternion.hpp"
+#include "../ThirdParty/glm/gtx/quaternion.hpp"
 
 #include "SDL2_InitWin.hpp" /* Window dimensions */
 

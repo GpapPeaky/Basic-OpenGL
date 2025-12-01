@@ -33,12 +33,13 @@ glm::mat4 OGL_GetProjMatrix(OGL_Camera* cam){
 }
 
 void OGL_UpdateCamera(OGL_Camera* cam){
-    glm::vec3 front;
-    front.x = cos(glm::radians(cam->yaw)) * cos(glm::radians(cam->pitch));
-    front.y = sin(glm::radians(cam->pitch));
-    front.z = sin(glm::radians(cam->yaw)) * cos(glm::radians(cam->pitch));
+    /* Use quaternions to retain all degress of freedom, theses objects extend to the complex plain */
+    glm::quat qPitch = glm::angleAxis(glm::radians(cam->pitch), glm::vec3(1,0,0));
+    glm::quat qYaw   = glm::angleAxis(glm::radians(cam->yaw),   glm::vec3(0,1,0));
+    
+    glm::quat orientation = qYaw * qPitch;
 
-    cam->front = glm::normalize(front);
+    cam->front = glm::normalize(orientation * glm::vec3(0,0,-1));
     cam->right = glm::normalize(glm::cross(cam->front, cam->worldUp));
     cam->up    = glm::normalize(glm::cross(cam->right, cam->front));
 

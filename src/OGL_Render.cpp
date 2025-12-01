@@ -29,9 +29,9 @@ void OGL_PreDraw(GLuint graphicsPipeline){
     return;
 }
 
-void OGL_Draw(OGL_VertexObject& object){
+void OGL_Draw(OGL_VertexObject* object){
     /* Select the array and buffer vertex objects */
-    glBindVertexArray(object.VAO);
+    glBindVertexArray(object->VAO);
     // glBindBuffer(GL_ARRAY_BUFFER, VBO);
     
     /* Draw the selected arrays */
@@ -41,14 +41,16 @@ void OGL_Draw(OGL_VertexObject& object){
     // glDrawArrays(GL_TRIANGLES, 0, 6);
     /* For index arrays */
     glDrawElements(GL_TRIANGLES,
-                object.verticesCount, // How many "items" / vertices to render
+                object->verticesCount, // How many "items" / vertices to render
                 GL_UNSIGNED_INT, // Type
                 0);
+
+    glBindVertexArray(0); /* Unibind */
 
     return;
 }
 
-void OGL_DrawObject(OGL_VertexObject& object){
+void OGL_DrawObject(OGL_VertexObject* object){
     OGL_Draw(object); /* We can call it like this */
 
     return;

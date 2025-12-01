@@ -7,12 +7,12 @@ OGL_Controller* OGL_CreateController(float speed, float sensitivity) {
     newController->speed = speed;
 
     /* Nullify the scancodes at first */
-    newController->forwardScancode = nullptr;
-    newController->backwardScancode = nullptr;
-    newController->leftwardScancode = nullptr;
-    newController->rightwardScancode = nullptr;
-    newController->upwardScancode = nullptr;
-    newController->downwardScancode = nullptr;
+    newController->forwardScancode = new SDL_Scancode;
+    newController->backwardScancode = new SDL_Scancode;
+    newController->leftwardScancode = new SDL_Scancode;
+    newController->rightwardScancode = new SDL_Scancode;
+    newController->upwardScancode = new SDL_Scancode;
+    newController->downwardScancode = new SDL_Scancode;
 
     newController->firstMouse = 1;
     newController->lastX = 0.0f;
@@ -136,20 +136,15 @@ void OGL_HandleControllerMouse(OGL_Controller* control, float xRel, float yRel){
     
     float xOff = xRel * control->sensitivity;
     float yOff = yRel * control->sensitivity;
-    
-    cam->yaw += xOff;
-    cam->pitch += yOff;
-    
-    if(cam->pitch > 89.0f){
-        cam->pitch = 89.0f;
-    }
-    
-    if(cam->pitch < -89.0f){
-        cam->pitch = -89.0f;
-    }
-    
+
+    cam->yaw -= xOff;
+    cam->pitch -= yOff;
+
+    /* Prevent camera flipping */
+    // if(cam->pitch > 89.0f) cam->pitch = 89.0f;
+    // if(cam->pitch < -89.0f) cam->pitch = -89.0f;
+
     OGL_UpdateCamera(cam);
     
     return;   
 }
-
