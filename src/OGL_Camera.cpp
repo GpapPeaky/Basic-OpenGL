@@ -33,10 +33,13 @@ glm::mat4 OGL_GetProjMatrix(OGL_Camera* cam){
 }
 
 void OGL_UpdateCamera(OGL_Camera* cam){
-    /* Use quaternions to retain all degress of freedom, theses objects extend to the complex plain */
-    glm::quat qPitch = glm::angleAxis(glm::radians(cam->pitch), glm::vec3(1,0,0));
-    glm::quat qYaw   = glm::angleAxis(glm::radians(cam->yaw),   glm::vec3(0,1,0));
+    // Create quaternions for yaw (around worldUp) and pitch (around camera's right)
+    glm::quat qYaw   = glm::angleAxis(glm::radians(cam->yaw), cam->worldUp);
     
+    // Compute current right vector for pitch rotation
+    glm::vec3 right = glm::normalize(glm::cross(glm::vec3(0,0,-1), cam->worldUp));
+    glm::quat qPitch = glm::angleAxis(glm::radians(cam->pitch), right);
+
     glm::quat orientation = qYaw * qPitch;
 
     cam->front = glm::normalize(orientation * glm::vec3(0,0,-1));

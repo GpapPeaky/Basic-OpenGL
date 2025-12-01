@@ -12,10 +12,6 @@ int SDL2_InitWin(void){
         return FAILURE;
     }
 
-    /* Relative mouse coordinates */
-    SDL_SetRelativeMouseMode(SDL_TRUE);
-    SDL_SetHint(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "0");
-
     /* Initialising window and renderer */
     SDL2_Win = SDL_CreateWindow("SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 800, SDL_WINDOW_OPENGL);
     if(SDL2_Win == NULL){
@@ -39,6 +35,10 @@ int SDL2_InitWin(void){
     }
 
     std::printf("Window Size: %ux%u, Aspect Ratio: %f\n", SDL2_WinWidth, SDL2_WinHeight, SDL2_AspectRatio);
+
+    /* Relative mouse coordinates */
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+    SDL_SetHint(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "0");
 
     return SUCCESS;
 }

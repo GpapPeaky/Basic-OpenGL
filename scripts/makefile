@@ -1,6 +1,6 @@
 # Compiler
 CXX = g++
-CC = gcc -M
+CC = gcc
 
 OBJDIR = obj
 BINDIR = bin
@@ -10,6 +10,11 @@ SDL2L = -LThirdParty/SDL2/lib
 SDL2F = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
 
 # GLAD
+#
+# For the glad.o object file
+# gcc -c ThirdParty/GLAD/src/glad.c -o obj/glad.o -IThirdParty/GLAD/include
+#  
+#
 GLADSRC = ThirdParty/GLAD/src/glad.c
 GLADOBJ = $(OBJDIR)/glad.o
 
@@ -28,7 +33,7 @@ OBJS = \
     $(OBJDIR)/OGL_Cube.o \
     $(OBJDIR)/OGL_Camera.o \
     $(OBJDIR)/OGL_Controller.o \
-	$(OBJDIR)/OGLS.o \
+	$(OBJDIR)/OGLS.o
 
 all: $(BINDIR)/win
 
