@@ -6,61 +6,50 @@ int main(int argc, char* argv[]){
     OGL_InitContext(SDL2_Win);
 
     /* Plane creation*/
-    OGL_Object* plane = new OGL_Object;
-    plane->mesh = new OGL_VertexObject;
+    GLuint TRS_MVP_Color_Shader = OGL_CreateGraphicsPipeline(OGLS_TRS_MVP_ColorV, OGLS_TRS_MVP_ColorF);
+    OGL_Object* plane = OGL_CreateObject(TRS_MVP_Color_Shader);
     OGL_CreateCubeVertexObjectFC(*plane->mesh);
-
+    OGL_AssignColorToObject(plane, 0.1f, 0.4f, 0.0f, 1.0f);
     plane->position[0] = 0.f; plane->position[1] = -0.6f; plane->position[2] = 0.f;
     plane->rotation[0] = 0.f; plane->rotation[1] = -0.6f; plane->rotation[2] = 0.f;
     plane->scale[0]    = 10.f; plane->scale[1]    = 0.1f; plane->scale[2]    = 10.f;
     
-    /* Obj creation */    
-    OGL_Object* obj = new OGL_Object;
-    obj->mesh = new OGL_VertexObject;
+    /* Obj creation */
+    GLuint TRS_MVP_TextureShader = OGL_CreateGraphicsPipeline(OGLS_TRS_MVP_TextureV, OGLS_TRS_MVP_TextureF);
+    OGL_Object* obj = OGL_CreateObject(TRS_MVP_TextureShader);
     OGL_CreateCubeVertexObjectT(*obj->mesh);
     OGL_LoadBitmapToObject(*obj->mesh, "assets/a2.bmp");
-    
-    /* Initial object TRS */
     obj->position[0] = 0.f; obj->position[1] = 0.f; obj->position[2] = 0.f;
     obj->rotation[0] = 0.f; obj->rotation[1] = 0.f; obj->rotation[2] = 0.f;
     obj->scale[0]    = 1.f; obj->scale[1]    = 1.f; obj->scale[2]    = 0.02f;
     
     /* Controller creation */
     OGL_Controller* ctrl = OGL_CreateController(5.0f, 0.1f);
-    ctrl->firstMouse = 1;
-    
+
     /* Camera setup */
     glm::vec3 camPos = glm::vec3(
         plane->position[0],
         plane->position[1] + 1.0f,
         plane->position[2]
-    );
+    );  
     glm::vec3 upVec = glm::vec3(0, 1, 0);
     float yaw = -90.0f;
     float pitch = 0.0f;
-    
     OGL_Camera* cam = OGL_CreateCamera(camPos, upVec, yaw, pitch);
     
     /* Bind camera to controller */
     OGL_BindCameraToController(ctrl, cam);
     
+    /* Bind a camera to the render view */
+    OGL_BindCameraToRenderView(cam);
+    
     /* Bind controller keys */
     OGL_BindControllerWASD(ctrl);
-    
-    /* Graphics pipeline for the shader program */
-    GLuint TRS_MVP_Shader;
-    TRS_MVP_Shader = OGL_CreateGraphicsPipeline(OGLS_TRS_MVP_TextureV, OGLS_TRS_MVP_TextureF);
 
-    /* Some otehr shader */
-    GLuint TRS_MVP_Color_Shader;
-    TRS_MVP_Color_Shader = OGL_CreateGraphicsPipeline(OGLS_TRS_MVP_ColorV, OGLS_TRS_MVP_ColorF);
-    
-    /* Uniforms to send */
-    float uPlaneColor[4] = { 1.0f, 0.0f, 1.0f, 1.0f };
-    
-    /* Updating */
-    float theta = 0.0f;
+    /* Miscellanious */
 
+    float theta = 0; /* Rotation */
+    
     /* Main loop, and timing */
     Uint32 lastTime = SDL_GetTicks();
     float dt = 0.0f;
@@ -73,10 +62,6 @@ int main(int argc, char* argv[]){
         dt = (now - lastTime) / 1000.0f; /* Convert to seconds */
         lastTime = now;
 
-        /* Same in each camera always */
-        glm::mat4 view = OGL_GetViewMatrix(cam);
-        glm::mat4 proj = OGL_GetProjMatrix(cam);
-
         /* Updates to assets / sprites / objects in general */
         SDL2_HandleEvents(SDL2_Quit, ctrl); /* Creates a new event to poll per call (Might need to be optimised) */
 
@@ -86,41 +71,13 @@ int main(int argc, char* argv[]){
         /* Rendering order matters */
         /* Need to pass each uniform before drawing */
 
-        /* --------------------- PLANE OBJECT --------------------- */
-        OGL_PreDraw(TRS_MVP_Color_Shader);
-
-        /* Send model TRS */
-        glUniform3fv(glGetUniformLocation(TRS_MVP_Color_Shader, "uTrans"),     1, plane->position);
-        glUniform3fv(glGetUniformLocation(TRS_MVP_Color_Shader, "uRotate"),    1, plane->rotation);
-        glUniform3fv(glGetUniformLocation(TRS_MVP_Color_Shader, "uScale"),     1, plane->scale);
-
-        /* Send camera matrices */
-        glUniformMatrix4fv(glGetUniformLocation(TRS_MVP_Color_Shader, "uView"), 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(glGetUniformLocation(TRS_MVP_Color_Shader, "uProj"), 1, GL_FALSE, glm::value_ptr(proj));
-
-        /* Send color */
-        glUniform4fv(glGetUniformLocation(TRS_MVP_Color_Shader, "uColor"), 1, uPlaneColor);
-
-        OGL_DrawObject(plane->mesh);
-
-        /* --------------------- OTHER OBJECT --------------------- */
-        OGL_PreDraw(TRS_MVP_Shader); /* Shader to use for the object */
-
         /* Updates */
         obj->rotation[1] += 0.2;
         obj->position[1] = cosf(theta) * 0.5;
         theta += 0.01f;
 
-        /* Send model TRS */
-        glUniform3fv(glGetUniformLocation(TRS_MVP_Shader, "uTrans"),     1, obj->position);
-        glUniform3fv(glGetUniformLocation(TRS_MVP_Shader, "uRotate"),    1, obj->rotation);
-        glUniform3fv(glGetUniformLocation(TRS_MVP_Shader, "uScale"),     1, obj->scale);
-
-        /* Send camera matrices */
-        glUniformMatrix4fv(glGetUniformLocation(TRS_MVP_Shader, "uView"), 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(glGetUniformLocation(TRS_MVP_Shader, "uProj"), 1, GL_FALSE, glm::value_ptr(proj));
-
-        OGL_DrawObject(obj->mesh);
+        OGL_Render(obj);
+        OGL_Render(plane);
 
         /* Swap frame buffers */
         SDL_GL_SwapWindow(SDL2_Win);

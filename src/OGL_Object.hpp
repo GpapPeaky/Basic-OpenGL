@@ -41,8 +41,6 @@ typedef struct OGL_VertexObject{
 
         3 + 3 + 2 floats! */
 
-    /* TODO: Add TRS/MVP? */
-
     /* By adding more 'VBOs' we can give more data to each object */
     /* And if it is not required, we simply do not engage with the fields */
     /* We can omit the extra VBO by only using one */
@@ -58,9 +56,35 @@ typedef struct OGL_VertexObject{
 typedef struct OGL_Object{
     OGL_VertexObject* mesh; /* Mesh, GPU data */
 
+    GLuint shader; /* Shader to use for rendering */
+
     /* CPU data, TRS to get the model */
 
-    float position[3];
-    float rotation[3];  
-    float scale[3];
+    float position[3];  /* Position to update, and pass to the GPU as uniform for model */
+    float rotation[3];  /* Rotation to update and pass to the GPU as uniform for model */
+    float scale[3];     /* Scale to update and pass to the GPU as uniform for model */
+    
+    /* Uniforms */
+    float color[4];    /* Color uniform variables */
+    /* ... */
 }OGL_Object;
+
+/**
+ * @brief Create memory for a new object
+ * 
+ * @param s Shader program to use
+ * 
+ * @returns The allocated object
+ */
+OGL_Object* OGL_CreateObject(GLuint s);
+
+/**
+ * @brief Assign a color to an object
+ * 
+ * @param obj Object to assign the color
+ * @param r Red value
+ * @param g Green value
+ * @param b Blue value
+ * @param a Alpha value
+ */
+void OGL_AssignColorToObject(OGL_Object* obj, float r, float g, float b, float a);

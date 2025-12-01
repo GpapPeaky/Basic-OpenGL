@@ -8,6 +8,20 @@
 #include "OGL_Shader.hpp" // For creating the shader object to be used in the graphics pipeline
 #include "OGL_Object.hpp" // For the vertex object abstraction
 
+#include "OGL_Camera.hpp" // For the camera
+
+#include "../ThirdParty/glm/gtc/type_ptr.hpp" // Type shit idk
+
+/* Main render view of the program */
+extern OGL_Camera* OGL_RenderView;
+
+/**
+ * @brief Bind a camera to the active render view
+ * 
+ * @param cam Camera to assign
+ */
+void OGL_BindCameraToRenderView(OGL_Camera* cam);
+
 /**
  * @brief Creates the graphics pipeline, with the vertex and
  * fragment shader
@@ -58,3 +72,24 @@ void OGL_DrawObject(OGL_VertexObject* object);
  * @param a ALpha value from 0 to 1.0 (0 to 255)
  */
 void OGL_SetScreenBackground(float r, float g, float b, float a);
+
+/**
+ * @brief Render an object, handle pre-draw/ and draw
+ * as well as uniforms
+ * 
+ * @note Uniforms we can use in shaders:
+ *  // Model
+ *  # uTrans - Object transformation
+ *  # uScale - Object scaling
+ *  # uRotate - Object rotation
+ * 
+ *  // Camera
+ *  uView - Render view's (active camera's) view matrix
+ *  uProj - Render view's (active camera's) projection matrix
+ * 
+ *  // Misc
+ *  uColor - Object coloring, only if the object as no UV, and the shader uses it
+ * 
+ * @param object Object to render
+ */
+void OGL_Render(OGL_Object* object);

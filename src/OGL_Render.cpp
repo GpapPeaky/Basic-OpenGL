@@ -1,5 +1,13 @@
 #include "OGL_Render.hpp"
 
+OGL_Camera* OGL_RenderView;
+
+void OGL_BindCameraToRenderView(OGL_Camera* cam){
+    OGL_RenderView = cam;
+
+    return;
+}
+
 GLuint OGL_CreateGraphicsPipeline(const std::string& vs, const std::string& fs){
     return OGL_CreateShaderProgram(vs, fs);;
 }
@@ -63,5 +71,25 @@ void OGL_SetScreenBackground(float r, float g, float b, float a){
     glClearColor(r, g, b, a);
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
+    return;
+}
+
+void OGL_Render(OGL_Object* object){
+    OGL_PreDraw(object->shader);
+
+    /* Send model TRS */
+    glUniform3fv(glGetUniformLocation(object->shader, "uTrans"),     1, object->position);
+    glUniform3fv(glGetUniformLocation(object->shader, "uRotate"),    1, object->rotation);
+    glUniform3fv(glGetUniformLocation(object->shader, "uScale"),     1, object->scale);
+
+    /* Send camera matrices */
+    glUniformMatrix4fv(glGetUniformLocation(object->shader, "uView"), 1, GL_FALSE, glm::value_ptr(OGL_GetViewMatrix(OGL_RenderView)));
+    glUniformMatrix4fv(glGetUniformLocation(object->shader, "uProj"), 1, GL_FALSE, glm::value_ptr(OGL_GetProjMatrix(OGL_RenderView)));
+
+    /* Send color */
+        glUniform4fv(glGetUniformLocation(object->shader, "uColor"), 1, object->color);
+
+    OGL_DrawObject(object->mesh);
+    
     return;
 }
