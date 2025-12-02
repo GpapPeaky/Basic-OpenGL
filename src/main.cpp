@@ -10,8 +10,8 @@ int main(int argc, char* argv[]){
     OGL_Object* plane = OGL_CreateObject(TRS_MVP_Color_Shader);
     OGL_CreateCubeVertexObjectFC(*plane->mesh);
     OGL_AssignColorToObject(plane, 0.1f, 0.4f, 0.0f, 1.0f);
-    plane->position[0] = 0.f; plane->position[1] = -0.6f; plane->position[2] = 0.f;
-    plane->rotation[0] = 0.f; plane->rotation[1] = -0.6f; plane->rotation[2] = 0.f;
+    plane->position[0] = 0.f; plane->position[1] = 0.0f; plane->position[2] = 0.f;
+    plane->rotation[0] = 0.f; plane->rotation[1] = 45.0f; plane->rotation[2] = 0.f;
     plane->scale[0]    = 10.f; plane->scale[1]    = 0.1f; plane->scale[2]    = 10.f;
     
     /* Objects creation */
@@ -20,9 +20,9 @@ int main(int argc, char* argv[]){
     OGL_Object* obj1 = OGL_CreateObject(TRS_MVP_TextureShader);
     OGL_CreateCubeVertexObjectT(*obj1->mesh);
     OGL_LoadBitmapToObject(*obj1->mesh, "assets/a3.bmp");
-    obj1->position[0] = 0.f; obj1->position[1] = 0.f; obj1->position[2] = 0.f;
+    obj1->scale[0]    = 1.f; obj1->scale[1]    = 12.f; obj1->scale[2]    = 1.f;
     obj1->rotation[0] = 0.f; obj1->rotation[1] = 0.f; obj1->rotation[2] = 0.f;
-    obj1->scale[0]    = 1.f; obj1->scale[1]    = 1.f; obj1->scale[2]    = 0.02f;
+    obj1->position[0] = 0.f; obj1->position[1] = obj1->scale[1] / 2; obj1->position[2] = 0.f;
 
     OGL_Object* obj2 = OGL_CreateObject(TRS_MVP_TextureShader);
     OGL_CreateCubeVertexObjectT(*obj2->mesh);
@@ -84,11 +84,8 @@ int main(int argc, char* argv[]){
         /* Need to pass each uniform before drawing */
         
         /* Updates */
-        obj1->rotation[1] += 0.2;
         obj2->rotation[1] += 0.3;
         obj3->rotation[1] -= 0.2;
-        obj1->position[1] = cosf(theta) * 0.5;
-        obj2->position[1] = cosf(theta) * 0.5;
         obj3->position[1] = cosf(theta) * 0.5;
         theta += 0.01f;
 
