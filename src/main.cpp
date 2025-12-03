@@ -27,7 +27,7 @@ int main(int argc, char* argv[]){
     OGL_Object* obj1 = OGL_CreateObject(TRS_MVP_TextureShader);
     OGL_CreateCubeVertexObjectT(*obj1->mesh);
     OGL_LoadBitmapToObject(*obj1->mesh, "assets/a3.bmp");
-    obj1->scale[0]    = 1.f; obj1->scale[1]    = 12.f; obj1->scale[2]    = 1.f;
+    obj1->scale[0]    = 24.f; obj1->scale[1]    = 12.f; obj1->scale[2]    = 1.f;
     obj1->rotation[0] = 0.f; obj1->rotation[1] = 0.f; obj1->rotation[2] = 0.f;
     obj1->position[0] = 0.f; obj1->position[1] = obj1->scale[1] / 2; obj1->position[2] = 0.f;
     OGL_ONode* onode1 = OGL_CreateNode(obj1, "obj1");
@@ -114,7 +114,7 @@ int main(int argc, char* argv[]){
         // OGL_Render(plane);
 
         OGL_RenderVisitChildren(onodePlane);
-        OGL_RenderVisitChildren(OGL_Scene);
+        // OGL_RenderVisitChildren(OGL_Scene);
     
         /* Swap frame buffers */
         SDL_GL_SwapWindow(SDL2_Win);
