@@ -154,3 +154,22 @@ std::string OGLS_TRS_MVP_TextureF =
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
+std::string OGLS_ROOT_OBJ_V =
+    "#version 410 core\n"
+    "\n"
+    "void main()\n"
+    "{\n"
+    "    gl_Position = vec4(0.0, 0.0, 0.0, 1.0);\n"
+    "}\n";
+
+std::string OGLS_ROOT_OBJ_F =
+    "#version 410 core\n"
+    "\n"
+    "out vec4 FragColor; // Final color output\n"
+    "\n"
+    "void main()\n"
+    "{\n"
+    "    FragColor = vec4(1.0, 1.0, 1.0, 0.0); // Sample the texture at the given coordinates\n"
+    "}\n";
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------

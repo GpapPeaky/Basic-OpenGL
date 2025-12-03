@@ -93,3 +93,12 @@ void OGL_Render(OGL_Object* object){
     
     return;
 }
+
+void OGL_RenderVisitChildren(OGL_ONode* parent){
+    OGL_Render(parent->o); /* Render the parent, currently visiting node */
+    
+    for(auto c : parent->children){
+        OGL_RenderVisitChildren(c);
+    }
+}
+

@@ -4,18 +4,25 @@ int main(int argc, char* argv[]){
     /* Initialise SDL2 and OpenGL */
     SDL2_InitWin();
     OGL_InitContext(SDL2_Win);
+    
+    /* Lightweight root object */
+    OGL_Shader rootObject_Shader = OGL_CreateGraphicsPipeline(OGLS_ROOT_OBJ_V, OGLS_ROOT_OBJ_F);
+    OGL_Object* rootObj = OGL_CreateObject(rootObject_Shader);
+    OGL_Scene = OGL_CreateNode(rootObj, "root");
 
     /* Plane creation*/
-    GLuint TRS_MVP_Color_Shader = OGL_CreateGraphicsPipeline(OGLS_TRS_MVP_ColorV, OGLS_TRS_MVP_ColorF);
+    OGL_Shader TRS_MVP_Color_Shader = OGL_CreateGraphicsPipeline(OGLS_TRS_MVP_ColorV, OGLS_TRS_MVP_ColorF);
     OGL_Object* plane = OGL_CreateObject(TRS_MVP_Color_Shader);
     OGL_CreateCubeVertexObjectFC(*plane->mesh);
     OGL_AssignColorToObject(plane, 0.1f, 0.4f, 0.0f, 1.0f);
     plane->position[0] = 0.f; plane->position[1] = 0.0f; plane->position[2] = 0.f;
     plane->rotation[0] = 0.f; plane->rotation[1] = 45.0f; plane->rotation[2] = 0.f;
     plane->scale[0]    = 10.f; plane->scale[1]    = 0.1f; plane->scale[2]    = 10.f;
+    /* Create the object node */
+    OGL_ONode* onodePlane = OGL_CreateNode(plane, "plane");
     
     /* Objects creation */
-    GLuint TRS_MVP_TextureShader = OGL_CreateGraphicsPipeline(OGLS_TRS_MVP_TextureV, OGLS_TRS_MVP_TextureF);
+    OGL_Shader TRS_MVP_TextureShader = OGL_CreateGraphicsPipeline(OGLS_TRS_MVP_TextureV, OGLS_TRS_MVP_TextureF);
 
     OGL_Object* obj1 = OGL_CreateObject(TRS_MVP_TextureShader);
     OGL_CreateCubeVertexObjectT(*obj1->mesh);
@@ -23,6 +30,7 @@ int main(int argc, char* argv[]){
     obj1->scale[0]    = 1.f; obj1->scale[1]    = 12.f; obj1->scale[2]    = 1.f;
     obj1->rotation[0] = 0.f; obj1->rotation[1] = 0.f; obj1->rotation[2] = 0.f;
     obj1->position[0] = 0.f; obj1->position[1] = obj1->scale[1] / 2; obj1->position[2] = 0.f;
+    OGL_ONode* onode1 = OGL_CreateNode(obj1, "obj1");
 
     OGL_Object* obj2 = OGL_CreateObject(TRS_MVP_TextureShader);
     OGL_CreateCubeVertexObjectT(*obj2->mesh);
@@ -30,6 +38,7 @@ int main(int argc, char* argv[]){
     obj2->position[0] = 3.f; obj2->position[1] = 0.f; obj2->position[2] = 0.f;
     obj2->rotation[0] = 0.f; obj2->rotation[1] = 0.f; obj2->rotation[2] = 0.f;
     obj2->scale[0]    = 1.f; obj2->scale[1]    = 1.f; obj2->scale[2]    = 0.02f;
+    OGL_ONode* onode2 = OGL_CreateNode(obj2, "obj2");
 
     OGL_Object* obj3 = OGL_CreateObject(TRS_MVP_TextureShader);
     OGL_CreateCubeVertexObjectT(*obj3->mesh);
@@ -37,6 +46,14 @@ int main(int argc, char* argv[]){
     obj3->position[0] = 2.f; obj3->position[1] = 0.f; obj3->position[2] = 3.f;
     obj3->rotation[0] = 0.f; obj3->rotation[1] = 0.f; obj3->rotation[2] = 0.f;
     obj3->scale[0]    = 1.f; obj3->scale[1]    = 1.f; obj3->scale[2]    = 0.02f;
+    OGL_ONode* onode3 = OGL_CreateNode(obj3, "obj3");
+
+    /* Hierarchy */
+    OGL_AttachChild(OGL_Scene, onodePlane);
+    OGL_AttachChild(onodePlane, onode1);
+    // OGL_AttachChild(OGL_Scene, onode1);
+    // OGL_AttachChild(OGL_Scene, onode2);
+    OGL_AttachChild(OGL_Scene, onode3);
     
     /* Controller creation */
     OGL_Controller* ctrl = OGL_CreateController(5.0f, 0.1f);
@@ -91,11 +108,14 @@ int main(int argc, char* argv[]){
 
         OGL_SetScreenBackground(0.f, 0.3f, 0.95f, 1.f);
 
-        OGL_Render(obj1);
-        OGL_Render(obj2);
-        OGL_Render(obj3);
-        OGL_Render(plane);
+        // OGL_Render(obj1);
+        // OGL_Render(obj2);
+        // OGL_Render(obj3);
+        // OGL_Render(plane);
 
+        OGL_RenderVisitChildren(onodePlane);
+        OGL_RenderVisitChildren(OGL_Scene);
+    
         /* Swap frame buffers */
         SDL_GL_SwapWindow(SDL2_Win);
 

@@ -3,12 +3,12 @@
 #include "../ThirdParty/SDL2/include/SDL2/SDL.h"
 #include "../ThirdParty/GLAD/include/glad/glad.h"
 
-#include "SDL2_InitWin.hpp" // For creating the shader object to be used in the graphics pipeline
+#include "SDL2_InitWin.hpp"      // For creating the shader object to be used in the graphics pipeline
 
-#include "OGL_Shader.hpp" // For creating the shader object to be used in the graphics pipeline
-#include "OGL_Object.hpp" // For the vertex object abstraction
-
-#include "OGL_Camera.hpp" // For the camera
+#include "OGL_Shader.hpp"        // For creating the shader object to be used in the graphics pipeline
+#include "OGL_Object.hpp"        // For the vertex object abstraction
+#include "OGL_ObjectNode.hpp"    // For rendering objects with hierarchy
+#include "OGL_Camera.hpp"        // For the camera
 
 #include "../ThirdParty/glm/gtc/type_ptr.hpp" // Type shit idk
 
@@ -93,3 +93,12 @@ void OGL_SetScreenBackground(float r, float g, float b, float a);
  * @param object Object to render
  */
 void OGL_Render(OGL_Object* object);
+
+/**
+ * @brief Vist and render all of the given
+ * root's children
+ *
+ * @param root Root to render the children of
+ */
+void OGL_RenderVisitChildren(OGL_ONode* root);
+
