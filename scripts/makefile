@@ -34,6 +34,7 @@ OBJS = \
     $(OBJDIR)/OGL_Camera.o \
     $(OBJDIR)/OGL_Controller.o \
     $(OBJDIR)/OGL_ObjectNode.o \
+    $(OBJDIR)/OGL_Material.o \
 	$(OBJDIR)/OGLS.o
 
 all: $(BINDIR)/win
@@ -91,6 +92,9 @@ $(OBJDIR)/OGL_Cube.o: src/OGL_Cube.cpp
 	$(CXX) -c $< -o $@ $(INCL)
 
 $(OBJDIR)/OGL_ObjectNode.o: src/OGL_ObjectNode.cpp
+	$(CXX) -c $< -o $@ $(INCL)
+
+$(OBJDIR)/OGL_Material.o: src/OGL_Material.cpp
 	$(CXX) -c $< -o $@ $(INCL)
 
 $(OBJDIR)/OGL_Camera.o: src/OGL_Camera.cpp

@@ -87,8 +87,21 @@ void OGL_Render(OGL_Object* object){
     glUniformMatrix4fv(glGetUniformLocation(object->shader, "uProj"), 1, GL_FALSE, glm::value_ptr(OGL_GetProjMatrix(OGL_RenderView)));
 
     /* Send color */
-        glUniform4fv(glGetUniformLocation(object->shader, "uColor"), 1, object->color);
+    glUniform4fv(glGetUniformLocation(object->shader, "uColor"), 1, object->color);
 
+    /* Send light, for now static */
+    glUniform3fv(glGetUniformLocation(object->shader, "uLightDir"), 1, glm::value_ptr(glm::vec3(0.0f, 4.0f, 0.0f)));
+    glUniform3fv(glGetUniformLocation(object->shader, "uLightColor"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+    glUniform1f(glGetUniformLocation(object->shader, "uLightIntensity"), 2.0f);
+    
+    /* Send object material */
+    glUniform3fv(glGetUniformLocation(object->shader, "uMatAmbientColor"), 1, object->mat.ambient);
+    glUniform3fv(glGetUniformLocation(object->shader, "uMatDiffuseColor"), 1, object->mat.diffuse);
+    glUniform3fv(glGetUniformLocation(object->shader, "uMatSpecularColor"), 1, object->mat.specular);
+    glUniform3fv(glGetUniformLocation(object->shader, "uMatEmitColor"), 1, object->mat.emit);
+    glUniform1f(glGetUniformLocation(object->shader, "uMatEmitIntensity"), object->mat.emissiveness);
+    glUniform1f(glGetUniformLocation(object->shader, "uMatShininess"), object->mat.shininess);
+    
     OGL_DrawObject(object->mesh);
     
     return;

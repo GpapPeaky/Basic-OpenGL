@@ -5,6 +5,8 @@
 #include "../ThirdParty/glm/glm.hpp"                /* GLM */
 #include "../ThirdParty/glm/gtc/matrix_transform.hpp"
 
+#include "OGL_Material.hpp"
+
 #include <iostream> /* Printing */
 #include <vector>   /* For vectors */
 
@@ -35,11 +37,15 @@ typedef struct OGL_VertexObject{
         inside the VBO that will consist of texture coordinates
         (see: OGL_TextureQuad.cpp l:7) so we have this format:
 
-                  // pos         // colour      // texture
-        vertex 1: X1, Y1, Z1,    R1, G1, B1,    S1, T1 
-        vertex 2: X2, Y2, Z2,    R2, G2, B2,    S2, T2 
+                  pos            colour         normals          texture
 
-        3 + 3 + 2 floats! */
+        vertex 1: X1, Y1, Z1,    R1, G1, B1,    NX1, NY1, NZ1    S1, T1 
+        vertex 2: X2, Y2, Z2,    R2, G2, B2,    NX2, NY2, NZ2    S2, T2 
+
+        Note: Normals exist PER SURFACE, and NOT PER VERTREX!
+
+        3 + 3 + 3 + 2 floats! */
+
 
     /* By adding more 'VBOs' we can give more data to each object */
     /* And if it is not required, we simply do not engage with the fields */
@@ -65,7 +71,9 @@ typedef struct OGL_Object{
     float scale[3];     /* Scale to update and pass to the GPU as uniform for model */
     
     /* Uniforms */
-    float color[4];    /* Color uniform variables */
+    float color[4];             /* Color uniform variables, to change per cycle */
+    OGL_Material mat;           /* Object material */
+    // TODO: OGL_LightSource light;      /* Light emitted by the object */
     /* ... */
 }OGL_Object;
 
@@ -88,3 +96,11 @@ OGL_Object* OGL_CreateObject(GLuint s);
  * @param a Alpha value
  */
 void OGL_AssignColorToObject(OGL_Object* obj, float r, float g, float b, float a);
+
+/**
+ * @brief Assign a material to an object
+ * 
+ * @param obj Object to assign the material to
+ * @param mat Material to assign
+ */
+void OGL_AssignMaterialToObject(OGL_Object* obj, OGL_Material mat);

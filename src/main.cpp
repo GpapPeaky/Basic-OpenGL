@@ -9,51 +9,51 @@ int main(int argc, char* argv[]){
     OGL_Shader rootObject_Shader = OGL_CreateGraphicsPipeline(OGLS_ROOT_OBJ_V, OGLS_ROOT_OBJ_F);
     OGL_Object* rootObj = OGL_CreateObject(rootObject_Shader);
     OGL_Scene = OGL_CreateNode(rootObj, "root");
-
-    /* Plane creation*/
-    OGL_Shader TRS_MVP_Color_Shader = OGL_CreateGraphicsPipeline(OGLS_TRS_MVP_ColorV, OGLS_TRS_MVP_ColorF);
-    OGL_Object* plane = OGL_CreateObject(TRS_MVP_Color_Shader);
-    OGL_CreateCubeVertexObjectFC(*plane->mesh);
-    OGL_AssignColorToObject(plane, 0.1f, 0.4f, 0.0f, 1.0f);
-    plane->position[0] = 0.f; plane->position[1] = 0.0f; plane->position[2] = 0.f;
-    plane->rotation[0] = 0.f; plane->rotation[1] = 45.0f; plane->rotation[2] = 0.f;
-    plane->scale[0]    = 10.f; plane->scale[1]    = 0.1f; plane->scale[2]    = 10.f;
-    /* Create the object node */
-    OGL_ONode* onodePlane = OGL_CreateNode(plane, "plane");
     
     /* Objects creation */
-    OGL_Shader TRS_MVP_TextureShader = OGL_CreateGraphicsPipeline(OGLS_TRS_MVP_TextureV, OGLS_TRS_MVP_TextureF);
 
-    OGL_Object* obj1 = OGL_CreateObject(TRS_MVP_TextureShader);
+    /* This shader requires a material */
+    OGL_Shader TRS_MVP_Lit_Blinn_Phong_TextureShader = OGL_CreateGraphicsPipeline(
+        OGLS_TRS_MVP_Lit_Blinn_Phong_Texture_AttenuatedV,
+        OGLS_TRS_MVP_Lit_Blinn_Phong_Texture_AttenuatedF
+    );
+
+    float lightColors[3] = { 1.0f, 1.0f, 1.0f };
+    float emitColors[3] = { 0.0f, 0.0f, 0.0f };
+    OGL_Material mat1 = OGL_CreateMaterial(
+        lightColors,
+        lightColors,
+        lightColors,
+        0.02f,
+        emitColors,
+        0.0f
+    );
+
+    /* Plane creation*/
+    // OGL_Shader TRS_MVP_Color_Shader = OGL_CreateGraphicsPipeline(OGLS_TRS_MVP_ColorV, OGLS_TRS_MVP_ColorF);
+    OGL_Object* plane = OGL_CreateObject(TRS_MVP_Lit_Blinn_Phong_TextureShader);
+    OGL_CreateCubeVertexObjectFC(*plane->mesh);
+    OGL_AssignMaterialToObject(plane, mat1);
+    OGL_LoadBitmapToObject(*plane->mesh, "assets/a1.bmp");
+    OGL_AssignColorToObject(plane, 0.1f, 0.4f, 0.0f, 1.0f);
+    plane->position[0] = 0.f; plane->position[1] = 0.0f; plane->position[2] = 0.f;
+    plane->rotation[0] = 0.f; plane->rotation[1] = 0.0f; plane->rotation[2] = 0.f;
+    plane->scale[0]    = 10.f; plane->scale[1]    = 0.02f; plane->scale[2]    = 10.f;
+    /* Create the object node */
+    OGL_ONode* onodePlane = OGL_CreateNode(plane, "plane");
+
+    OGL_Object* obj1 = OGL_CreateObject(TRS_MVP_Lit_Blinn_Phong_TextureShader);
     OGL_CreateCubeVertexObjectT(*obj1->mesh);
     OGL_LoadBitmapToObject(*obj1->mesh, "assets/a3.bmp");
-    obj1->scale[0]    = 24.f; obj1->scale[1]    = 12.f; obj1->scale[2]    = 1.f;
-    obj1->rotation[0] = 0.f; obj1->rotation[1] = 0.f; obj1->rotation[2] = 0.f;
-    obj1->position[0] = 0.f; obj1->position[1] = obj1->scale[1] / 2; obj1->position[2] = 0.f;
+    OGL_AssignMaterialToObject(obj1, mat1);
+    obj1->scale[0]    = 1.f; obj1->scale[1]    = 1.f; obj1->scale[2]    = 0.05f;
+    obj1->rotation[0] = 0.f; obj1->rotation[1] = 180.f; obj1->rotation[2] = 0.f;
+    obj1->position[0] = 0.f; obj1->position[1] = obj1->scale[1] / 2; obj1->position[2] = 5.f;
     OGL_ONode* onode1 = OGL_CreateNode(obj1, "obj1");
-
-    OGL_Object* obj2 = OGL_CreateObject(TRS_MVP_TextureShader);
-    OGL_CreateCubeVertexObjectT(*obj2->mesh);
-    OGL_LoadBitmapToObject(*obj2->mesh, "assets/a3.bmp");
-    obj2->position[0] = 3.f; obj2->position[1] = 0.f; obj2->position[2] = 0.f;
-    obj2->rotation[0] = 0.f; obj2->rotation[1] = 0.f; obj2->rotation[2] = 0.f;
-    obj2->scale[0]    = 1.f; obj2->scale[1]    = 1.f; obj2->scale[2]    = 0.02f;
-    OGL_ONode* onode2 = OGL_CreateNode(obj2, "obj2");
-
-    OGL_Object* obj3 = OGL_CreateObject(TRS_MVP_TextureShader);
-    OGL_CreateCubeVertexObjectT(*obj3->mesh);
-    OGL_LoadBitmapToObject(*obj3->mesh, "assets/a3.bmp");
-    obj3->position[0] = 2.f; obj3->position[1] = 0.f; obj3->position[2] = 3.f;
-    obj3->rotation[0] = 0.f; obj3->rotation[1] = 0.f; obj3->rotation[2] = 0.f;
-    obj3->scale[0]    = 1.f; obj3->scale[1]    = 1.f; obj3->scale[2]    = 0.02f;
-    OGL_ONode* onode3 = OGL_CreateNode(obj3, "obj3");
 
     /* Hierarchy */
     OGL_AttachChild(OGL_Scene, onodePlane);
-    OGL_AttachChild(onodePlane, onode1);
-    // OGL_AttachChild(OGL_Scene, onode1);
-    // OGL_AttachChild(OGL_Scene, onode2);
-    OGL_AttachChild(OGL_Scene, onode3);
+    OGL_AttachChild(OGL_Scene, onode1);
     
     /* Controller creation */
     OGL_Controller* ctrl = OGL_CreateController(5.0f, 0.1f);
@@ -79,8 +79,10 @@ int main(int argc, char* argv[]){
     OGL_BindControllerWASD(ctrl);
 
     /* Miscellanious */
-    float theta = 0; /* Rotation */
-    
+    float theta = 0.5f; /* Rotation */
+    float radius = 5.0f;
+    float speed  = 0.5f;
+
     /* Main loop, and timing */
     Uint32 lastTime = SDL_GetTicks();
     float dt = 0.0f;
@@ -101,20 +103,16 @@ int main(int argc, char* argv[]){
         /* Need to pass each uniform before drawing */
         
         /* Updates */
-        obj2->rotation[1] += 0.3;
-        obj3->rotation[1] -= 0.2;
-        obj3->position[1] = cosf(theta) * 0.5;
-        theta += 0.01f;
+        onode1->o->rotation[1] += theta;
+        theta += dt * speed;  // accumulate angle over time
 
-        OGL_SetScreenBackground(0.f, 0.3f, 0.95f, 1.f);
+        onode1->o->position[0] = radius * cos(theta);
+        onode1->o->position[2] = radius * sin(theta);
 
-        // OGL_Render(obj1);
-        // OGL_Render(obj2);
-        // OGL_Render(obj3);
-        // OGL_Render(plane);
+        // OGL_SetScreenBackground(0.f, 0.3f, 0.95f, 1.f);
+        OGL_SetScreenBackground(0.f, 0.f, 0.f, 1.f);
 
-        OGL_RenderVisitChildren(onodePlane);
-        // OGL_RenderVisitChildren(OGL_Scene);
+        OGL_RenderVisitChildren(OGL_Scene);
     
         /* Swap frame buffers */
         SDL_GL_SwapWindow(SDL2_Win);
