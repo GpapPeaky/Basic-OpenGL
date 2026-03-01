@@ -37,15 +37,14 @@ typedef struct OGL_VertexObject{
         inside the VBO that will consist of texture coordinates
         (see: OGL_TextureQuad.cpp l:7) so we have this format:
 
-                  pos            colour         normals          texture
-
-        vertex 1: X1, Y1, Z1,    R1, G1, B1,    NX1, NY1, NZ1    S1, T1 
-        vertex 2: X2, Y2, Z2,    R2, G2, B2,    NX2, NY2, NZ2    S2, T2 
+                        pos            colour         normals          texture
+        
+        vertex 1:       X1, Y1, Z1,    R1, G1, B1,    NX1, NY1, NZ1    S1, T1 
+        vertex 2:       X2, Y2, Z2,    R2, G2, B2,    NX2, NY2, NZ2    S2, T2 
 
         Note: Normals exist PER SURFACE, and NOT PER VERTREX!
 
         3 + 3 + 3 + 2 floats! */
-
 
     /* By adding more 'VBOs' we can give more data to each object */
     /* And if it is not required, we simply do not engage with the fields */
