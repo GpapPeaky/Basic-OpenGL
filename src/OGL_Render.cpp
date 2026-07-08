@@ -108,7 +108,7 @@ void OGL_Render(OGL_Object* object){
 }
 
 void OGL_RenderVisitChildren(OGL_ONode* parent){
-    if (!parent.active) return; /* Parent is NOT active, so children also aren't */
+    if (!parent->active) return; /* Parent is NOT active, so children also aren't */
 
     OGL_Render(parent->o); /* Render the parent, currently visiting node */
     

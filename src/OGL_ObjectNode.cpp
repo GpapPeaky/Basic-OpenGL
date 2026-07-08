@@ -28,7 +28,7 @@ OGL_ONode* OGL_GetChild(OGL_ONode* root, std::string id){
 
 void OGL_AttachChild(OGL_ONode* parent, OGL_ONode* child){
     if(!parent){
-        std::fprintf(stderr, "OGL_ERR: Null parent node to attach child %s\n", child->id);
+        std::fprintf(stderr, "OGL_ERR: Null parent node to attach child %s\n", child->id.c_str());
 
         return;
     }

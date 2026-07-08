@@ -1,109 +1,110 @@
+# ==========================================================
 # Compiler
-CXX = g++
-CC = gcc
+# ==========================================================
 
-OBJDIR = obj
-BINDIR = bin
+CXX := g++
+CC  := gcc
 
-INCL = -IThirdParty/SDL2/include/
-SDL2L = -LThirdParty/SDL2/lib
-SDL2F = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
+# ==========================================================
+# Directories
+# ==========================================================
 
-# GLAD
-#
-# For the glad.o object file
-# gcc -c ThirdParty/GLAD/src/glad.c -o obj/glad.o -IThirdParty/GLAD/include
-#  
-#
-GLADSRC = ThirdParty/GLAD/src/glad.c
-GLADOBJ = $(OBJDIR)/glad.o
+SRCDIR := src
+SHDDIR := shaders
+OBJDIR := obj
+BINDIR := bin
 
-# Object files
-OBJS = \
-    $(OBJDIR)/main.o \
-    $(OBJDIR)/SDL2_Event.o \
-    $(OBJDIR)/SDL2_InitWin.o \
-    $(OBJDIR)/OGL_InitContext.o \
-    $(OBJDIR)/OGL_Render.o \
-    $(OBJDIR)/OGL_Triangle.o \
-    $(OBJDIR)/OGL_Quad.o \
-    $(OBJDIR)/OGL_Shader.o \
-    $(OBJDIR)/OGL_Object.o \
-    $(OBJDIR)/OGL_TextureQuad.o \
-    $(OBJDIR)/OGL_Cube.o \
-    $(OBJDIR)/OGL_Camera.o \
-    $(OBJDIR)/OGL_Controller.o \
-    $(OBJDIR)/OGL_ObjectNode.o \
-    $(OBJDIR)/OGL_Material.o \
-	$(OBJDIR)/OGLS.o
+TARGET := $(BINDIR)/win.exe
 
-all: $(BINDIR)/win
+# ==========================================================
+# Compiler / Linker Flags
+# ==========================================================
 
-# Link -------------------------------------------------------------------
+CPPFLAGS := \
+    -IThirdParty/SDL2/include \
+    -IThirdParty/GLAD/include \
+    -MMD -MP
 
-$(BINDIR)/win: $(OBJS) $(GLADOBJ)
-	@mkdir -p $(BINDIR)
-	$(CXX) $(OBJS) $(GLADOBJ) $(SDL2L) $(SDL2F) -o $@
+CXXFLAGS := -Wall -Wextra -std=c++17
+CFLAGS   := -Wall -Wextra
 
-# GLAD -------------------------------------------------------------------
+LDFLAGS := -LThirdParty/SDL2/lib
 
-$(OBJDIR)/glad.o: $(GLADSRC)
-	@mkdir -p $(OBJDIR)
-	$(CC) -c $< -o $@ $(INCL)
+LDLIBS := \
+    -lmingw32 \
+    -lSDL2main \
+    -lSDL2 \
+    -lSDL2_image
 
-# Rules for every .cpp ---------------------------------------------------
+# ==========================================================
+# Source Files
+# ==========================================================
 
-$(OBJDIR)/main.o: src/main.cpp $(AUXF) $(SHADERS)
-	@mkdir -p $(OBJDIR)
-	$(CXX) -c src/main.cpp -o $(OBJDIR)/main.o $(INCL)
+CPP_SRCS := \
+    $(wildcard $(SRCDIR)/*.cpp) \
+    $(wildcard $(SHDDIR)/*.cpp)
 
-$(OBJDIR)/OGLS.o: shaders/OGLS.cpp shaders/OGLS.hpp
-	@mkdir -p $(OBJDIR)
-	$(CXX) -c shaders/OGLS.cpp -o $(OBJDIR)/OGLS.o $(INCL)
+C_SRCS := \
+    ThirdParty/GLAD/src/glad.c
 
-$(OBJDIR)/SDL2_Event.o: src/SDL2_Event.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+# ==========================================================
+# Object Files
+# ==========================================================
 
-$(OBJDIR)/SDL2_InitWin.o: src/SDL2_InitWin.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+CPP_OBJS := $(patsubst %.cpp,$(OBJDIR)/%.o,$(CPP_SRCS))
+C_OBJS   := $(patsubst %.c,$(OBJDIR)/%.o,$(C_SRCS))
 
-$(OBJDIR)/OGL_InitContext.o: src/OGL_InitContext.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+OBJS := $(CPP_OBJS) $(C_OBJS)
 
-$(OBJDIR)/OGL_Render.o: src/OGL_Render.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+# ==========================================================
+# Targets
+# ==========================================================
 
-$(OBJDIR)/OGL_Triangle.o: src/OGL_Triangle.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+.PHONY: all clean run
 
-$(OBJDIR)/OGL_Quad.o: src/OGL_Quad.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+all: $(TARGET)
 
-$(OBJDIR)/OGL_Shader.o: src/OGL_Shader.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+# ----------------------------------------------------------
+# Link
+# ----------------------------------------------------------
 
-$(OBJDIR)/OGL_Object.o: src/OGL_Object.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+$(TARGET): $(OBJS)
+	@if not exist "$(BINDIR)" mkdir "$(BINDIR)"
+	$(CXX) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $@
 
-$(OBJDIR)/OGL_TextureQuad.o: src/OGL_TextureQuad.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+# ----------------------------------------------------------
+# Compile C++
+# ----------------------------------------------------------
 
-$(OBJDIR)/OGL_Cube.o: src/OGL_Cube.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+$(OBJDIR)/%.o: %.cpp
+	@if not exist "$(dir $@)" mkdir "$(dir $@)"
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-$(OBJDIR)/OGL_ObjectNode.o: src/OGL_ObjectNode.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+# ----------------------------------------------------------
+# Compile C
+# ----------------------------------------------------------
 
-$(OBJDIR)/OGL_Material.o: src/OGL_Material.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+$(OBJDIR)/%.o: %.c
+	@if not exist "$(dir $@)" mkdir "$(dir $@)"
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-$(OBJDIR)/OGL_Camera.o: src/OGL_Camera.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+# ----------------------------------------------------------
+# Run
+# ----------------------------------------------------------
 
-$(OBJDIR)/OGL_Controller.o: src/OGL_Controller.cpp
-	$(CXX) -c $< -o $@ $(INCL)
+run: all
+	$(TARGET)
 
-# Clean ------------------------------------------------------------------
+# ----------------------------------------------------------
+# Clean
+# ----------------------------------------------------------
 
 clean:
-	rm -rf $(OBJDIR) $(BINDIR)/win
+	@if exist "$(OBJDIR)" rmdir /S /Q "$(OBJDIR)"
+	@if exist "$(BINDIR)" rmdir /S /Q "$(BINDIR)"
+
+# ==========================================================
+# Auto-generated dependencies
+# ==========================================================
+
+-include $(OBJS:.o=.d)

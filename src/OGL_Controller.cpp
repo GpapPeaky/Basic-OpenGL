@@ -1,6 +1,6 @@
 #include "OGL_Controller.hpp"
 
-OGL_Controller* OGL_CreateController(float speed, float sensitivity, OGL_ControllerMode mode) {
+OGL_Controller* OGL_CreateController(float speed, float sensitivity) {
     OGL_Controller* newController = new OGL_Controller;
 
     newController->sensitivity = sensitivity;
@@ -139,13 +139,13 @@ void OGL_HandleControllerKeyboard(OGL_Controller* control, const Uint8* keyState
     
     if(control->upwardScancode){
         if(keyState[*control->upwardScancode]){
-            // TODO
+            cam->pos += cam->up * velocity;
         }
     }
     
     if(control->downwardScancode){
         if(keyState[*control->downwardScancode]){
-            // TODO        
+            cam->pos += cam->up * velocity;
         }
     }
 

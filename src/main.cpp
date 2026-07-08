@@ -1,6 +1,8 @@
 #include "auxf/includes.aux"
 
 int main(int argc, char* argv[]){
+    // FIXME: App crashes somewhere?
+
     /* Initialise SDL2 and OpenGL */
     SDL2_InitWin();
     OGL_InitContext(SDL2_Win);
@@ -38,7 +40,7 @@ int main(int argc, char* argv[]){
     OGL_AssignColorToObject(plane, 0.1f, 0.4f, 0.0f, 1.0f);
     plane->position[0] = 0.f; plane->position[1] = 0.0f; plane->position[2] = 0.f;
     plane->rotation[0] = 0.f; plane->rotation[1] = 0.0f; plane->rotation[2] = 0.f;
-    plane->scale[0]    = 10.f; plane->scale[1]    = 0.02f; plane->scale[2]    = 10.f;
+    plane->scale[0]    = 10.f; plane->scale[1]   = 10.f; plane->scale[2]    = 10.f;
     /* Create the object node */
     OGL_ONode* onodePlane = OGL_CreateNode(plane, "plane");
 
@@ -76,7 +78,7 @@ int main(int argc, char* argv[]){
     OGL_BindCameraToRenderView(cam);
     
     /* Bind controller keys */
-    OGL_BindControllerWASD(ctrl);
+    OGL_BindControllerWASD3D(ctrl);
 
     /* Miscellanious */
     float theta = 0.5f; /* Rotation */

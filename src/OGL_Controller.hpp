@@ -1,7 +1,6 @@
 #pragma once
 
 #include "OGL_Camera.hpp"
-#include "OGL_Scancode.hpp"
 
 #include "../ThirdParty/SDL2/include/SDL2/SDL.h"
 
