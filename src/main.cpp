@@ -13,9 +13,9 @@ int main(int argc, char* argv[]){
     /* Objects creation */
 
     /* This shader requires a material */
-    OGL_Shader TRS_MVP_Lit_Blinn_Phong_TextureShader = OGL_CreateGraphicsPipeline(
-        OGLS_TRS_MVP_Lit_Blinn_Phong_Texture_AttenuatedV,
-        OGLS_TRS_MVP_Lit_Blinn_Phong_Texture_AttenuatedF
+    OGL_Shader TRS_MVP_TextureShader = OGL_CreateGraphicsPipeline(
+        OGLS_TRS_MVP_TextureV,
+        OGLS_TRS_MVP_TextureF
     );
 
     float lightColors[3] = { 1.0f, 1.0f, 1.0f };
@@ -29,11 +29,20 @@ int main(int argc, char* argv[]){
         0.0f
     );
 
+    OGL_Material mat2 = OGL_CreateMaterial(
+        emitColors,
+        emitColors,
+        emitColors,
+        0.02f,
+        emitColors,
+        0.0f
+    );
+
     /* Plane creation*/
     // OGL_Shader TRS_MVP_Color_Shader = OGL_CreateGraphicsPipeline(OGLS_TRS_MVP_ColorV, OGLS_TRS_MVP_ColorF);
-    OGL_Object* plane = OGL_CreateObject(TRS_MVP_Lit_Blinn_Phong_TextureShader);
+    OGL_Object* plane = OGL_CreateObject(TRS_MVP_TextureShader);
     OGL_CreateCubeVertexObjectFC(*plane->mesh);
-    OGL_AssignMaterialToObject(plane, mat1);
+    OGL_AssignMaterialToObject(plane, mat2);
     OGL_LoadBitmapToObject(*plane->mesh, "assets/a1.bmp");
     OGL_AssignColorToObject(plane, 0.1f, 0.4f, 0.0f, 1.0f);
     plane->position[0] = 0.f; plane->position[1] = 0.0f; plane->position[2] = 0.f;
@@ -42,7 +51,7 @@ int main(int argc, char* argv[]){
     /* Create the object node */
     OGL_ONode* onodePlane = OGL_CreateNode(plane, "plane");
 
-    OGL_Object* obj1 = OGL_CreateObject(TRS_MVP_Lit_Blinn_Phong_TextureShader);
+    OGL_Object* obj1 = OGL_CreateObject(TRS_MVP_TextureShader);
     OGL_CreateCubeVertexObjectT(*obj1->mesh);
     OGL_LoadBitmapToObject(*obj1->mesh, "assets/a3.bmp");
     OGL_AssignMaterialToObject(obj1, mat1);
