@@ -1,8 +1,6 @@
 #include "auxf/includes.aux"
 
 int main(int argc, char* argv[]){
-    // FIXME: App crashes somewhere?
-
     /* Initialise SDL2 and OpenGL */
     SDL2_InitWin();
     OGL_InitContext(SDL2_Win);
@@ -52,7 +50,7 @@ int main(int argc, char* argv[]){
     obj1->rotation[0] = 0.f; obj1->rotation[1] = 180.f; obj1->rotation[2] = 0.f;
     obj1->position[0] = 0.f; obj1->position[1] = obj1->scale[1] / 2; obj1->position[2] = 5.f;
     OGL_ONode* onode1 = OGL_CreateNode(obj1, "obj1");
-
+    
     /* Hierarchy */
     OGL_AttachChild(OGL_Scene, onodePlane);
     OGL_AttachChild(OGL_Scene, onode1);
@@ -78,7 +76,7 @@ int main(int argc, char* argv[]){
     OGL_BindCameraToRenderView(cam);
     
     /* Bind controller keys */
-    OGL_BindControllerWASD3D(ctrl);
+    OGL_BindControllerWASD2D(ctrl);
 
     /* Miscellanious */
     float theta = 0.5f; /* Rotation */
@@ -94,11 +92,11 @@ int main(int argc, char* argv[]){
         Uint32 now = SDL_GetTicks();
         dt = (now - lastTime) / 1000.0f; /* Convert to seconds */
         lastTime = now;
-        
+
         /* Updates to assets / sprites / objects in general */
         SDL2_HandleEvents(SDL2_Quit, ctrl); /* Creates a new event to poll per call (Might need to be optimised) */
         
-        const Uint8* keys = SDL_GetKeyboardState(nullptr);
+        const Uint8* keys = SDL_GetKeyboardState(NULL);
         OGL_HandleControllerKeyboard(ctrl, keys, dt);
         
         /* Rendering order matters */

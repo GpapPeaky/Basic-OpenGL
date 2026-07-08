@@ -1,18 +1,18 @@
 #include "OGL_Controller.hpp"
 
 OGL_Controller* OGL_CreateController(float speed, float sensitivity) {
-    OGL_Controller* newController = new OGL_Controller;
+    OGL_Controller* newController = new OGL_Controller{};
 
     newController->sensitivity = sensitivity;
     newController->speed = speed;
 
     /* Nullify the scancodes at first */
-    newController->forwardScancode = new SDL_Scancode;
-    newController->backwardScancode = new SDL_Scancode;
-    newController->leftwardScancode = new SDL_Scancode;
-    newController->rightwardScancode = new SDL_Scancode;
-    newController->upwardScancode = new SDL_Scancode;
-    newController->downwardScancode = new SDL_Scancode;
+    newController->forwardScancode = NULL;
+    newController->backwardScancode = NULL;
+    newController->leftwardScancode = NULL;
+    newController->rightwardScancode = NULL;
+    newController->upwardScancode = NULL;
+    newController->downwardScancode = NULL;
 
     newController->firstMouse = 1;
     newController->lastX = 0.0f;
@@ -26,36 +26,42 @@ void OGL_BindCameraToController(OGL_Controller* control, OGL_Camera* cam){
 }
 
 void OGL_BindControllerForward(OGL_Controller* control, SDL_Scancode s){
+    control->forwardScancode = new SDL_Scancode;
     *control->forwardScancode = s;
     
     return;    
 }
 
 void OGL_BindControllerBackward(OGL_Controller* control, SDL_Scancode s){
+    control->backwardScancode = new SDL_Scancode;
     *control->backwardScancode = s;
     
     return;    
 }
 
 void OGL_BindControllerLeftward(OGL_Controller* control, SDL_Scancode s){
+    control->leftwardScancode = new SDL_Scancode;
     *control->leftwardScancode = s;
     
     return;    
 }
 
 void OGL_BindControllerRightward(OGL_Controller* control, SDL_Scancode s){
+    control->rightwardScancode = new SDL_Scancode;
     *control->rightwardScancode = s;
         
     return;    
 }
 
 void OGL_BindControllerUpward(OGL_Controller* control, SDL_Scancode s){
+    control->upwardScancode = new SDL_Scancode;
     *control->upwardScancode = s;
 
     return;    
 }
 
 void OGL_BindControllerDownward(OGL_Controller* control, SDL_Scancode s){
+    control->downwardScancode = new SDL_Scancode;
     *control->downwardScancode = s;
 
     return;    
@@ -110,6 +116,11 @@ void OGL_BindControllerWASDShiftSpace(OGL_Controller* control){
 }
 
 void OGL_HandleControllerKeyboard(OGL_Controller* control, const Uint8* keyState, float dt){
+    if (!control || !control->cam || !keyState) {
+        std::fprintf(stderr, "OGL_ERR: Invalid controller state\n");
+        return;
+    }
+
     OGL_Camera* cam = control->cam;
     float velocity = control->speed * dt;
     
@@ -136,7 +147,7 @@ void OGL_HandleControllerKeyboard(OGL_Controller* control, const Uint8* keyState
             cam->pos += cam->right * velocity;            
         }
     }
-    
+
     if(control->upwardScancode){
         if(keyState[*control->upwardScancode]){
             cam->pos += cam->up * velocity;
@@ -145,7 +156,7 @@ void OGL_HandleControllerKeyboard(OGL_Controller* control, const Uint8* keyState
     
     if(control->downwardScancode){
         if(keyState[*control->downwardScancode]){
-            cam->pos += cam->up * velocity;
+            cam->pos -= cam->up * velocity;
         }
     }
 
