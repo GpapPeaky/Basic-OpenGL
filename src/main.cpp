@@ -96,6 +96,8 @@ int main(int argc, char* argv[]){
     Uint32 lastTime = SDL_GetTicks();
     float dt = 0.0f;
 
+    // onode1->active = false;
+
     bool SDL2_Quit = false;
     while(!SDL2_Quit){
         Uint32 now = SDL_GetTicks();
