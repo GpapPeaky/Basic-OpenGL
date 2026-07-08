@@ -1,6 +1,6 @@
 #include "OGL_Controller.hpp"
 
-OGL_Controller* OGL_CreateController(float speed, float sensitivity) {
+OGL_Controller* OGL_CreateController(float speed, float sensitivity, OGL_ControllerMode mode) {
     OGL_Controller* newController = new OGL_Controller;
 
     newController->sensitivity = sensitivity;
@@ -56,12 +56,12 @@ void OGL_BindControllerUpward(OGL_Controller* control, SDL_Scancode s){
 }
 
 void OGL_BindControllerDownward(OGL_Controller* control, SDL_Scancode s){
-    *control->upwardScancode = s;
+    *control->downwardScancode = s;
 
     return;    
 }
 
-void OGL_BindControllerArrowKeys(OGL_Controller* control){
+void OGL_BindControllerArrowKeys3D(OGL_Controller* control){
     OGL_BindControllerLeftward(control, SDL_SCANCODE_LEFT);    
     OGL_BindControllerRightward(control, SDL_SCANCODE_RIGHT);
     OGL_BindControllerForward(control, SDL_SCANCODE_UP);
@@ -70,7 +70,7 @@ void OGL_BindControllerArrowKeys(OGL_Controller* control){
     return;    
 }
 
-void OGL_BindControllerWASD(OGL_Controller* control){
+void OGL_BindControllerWASD3D(OGL_Controller* control){
     OGL_BindControllerLeftward(control, SDL_SCANCODE_A);    
     OGL_BindControllerRightward(control, SDL_SCANCODE_D);
     OGL_BindControllerForward(control, SDL_SCANCODE_W);
@@ -79,8 +79,29 @@ void OGL_BindControllerWASD(OGL_Controller* control){
     return;    
 }
 
-/* Default bindings, WASD keys */
-#define OGL_BindControllerDefault(control) OGL_BindControllerWASD(control)
+void OGL_BindControllerWASD2D(OGL_Controller* control){
+    OGL_BindControllerLeftward(control, SDL_SCANCODE_A);    
+    OGL_BindControllerRightward(control, SDL_SCANCODE_D);
+    OGL_BindControllerUpward(control, SDL_SCANCODE_W);
+    OGL_BindControllerDownward(control, SDL_SCANCODE_S);
+
+    return;
+}
+
+void OGL_BindControllerArrowKeys2D(OGL_Controller* control){
+    OGL_BindControllerLeftward(control, SDL_SCANCODE_LEFT);    
+    OGL_BindControllerRightward(control, SDL_SCANCODE_RIGHT);
+    OGL_BindControllerUpward(control, SDL_SCANCODE_UP);
+    OGL_BindControllerDownward(control, SDL_SCANCODE_DOWN);
+
+    return;
+}
+
+/* Default bindings, WASD keys for 3D space movemment */
+#define OGL_BindControllerDefault3D(control) OGL_BindControllerWASD3D(control)
+
+/* Default bindings, WASD keys for 2D plane movement */
+#define OGL_BindControllerDefault2D(control) OGL_BindControllerWASD2D(control)
 
 void OGL_BindControllerWASDShiftSpace(OGL_Controller* control){
     // TODO    

@@ -6,8 +6,10 @@
 #include <vector>
 
 typedef struct OGL_ONode{
-    std::string id;                    /* Identifier */
-    OGL_Object* o;                     /* Object data */
+    std::string id;                     /* Identifier */
+    OGL_Object* o;                      /* Object data */
+    bool active;                        /* Node is active, if NOT active, it will not be rendered, and cannot be interacted with! If the node has children
+                                        they will also be omitted from updates and render visits */
     std::vector<OGL_ONode*> children;   /* Object's children */
 }OGL_ONode;
 

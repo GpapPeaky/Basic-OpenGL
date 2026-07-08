@@ -90,26 +90,39 @@ void OGL_BindControllerUpward(OGL_Controller* control, SDL_Scancode s);
 void OGL_BindControllerDownward(OGL_Controller* control, SDL_Scancode s);
 
 /**
- * @brief Bind controller movement to the arrow keys
+ * @brief Bind controller movement to the arrow keys (3D)
  * 
  * @param control Controller to bind
  */
-void OGL_BindControllerArrowKeys(OGL_Controller* control);
+void OGL_BindControllerArrowKeys3D(OGL_Controller* control);
 
 /**
- * @brief Bind controller movement to the WASD keys
+ * @brief Bind controller movement to the WASD keys (3D)
  * 
  * @param control Controller to bind
  */
-void OGL_BindControllerWASD(OGL_Controller* control);
+void OGL_BindControllerWASD3D(OGL_Controller* control);
 
 /**
- * @brief Bind controller movement to the WASD/Space/Shift keys
+ * @brief Bind controller movement to the arrow keys (2D)
  * 
  * @param control Controller to bind
  */
-void OGL_BindControllerWASDShiftSpace(OGL_Controller* control);
+void OGL_BindControllerArrowKeys2D(OGL_Controller* control);
 
+/**
+ * @brief Bind controller movement to the WASD keys (2D)
+ * 
+ * @param control Controller to bind
+ */
+void OGL_BindControllerWASD2D(OGL_Controller* control);
+
+/**
+ * @brief Bind controller movement to the WASD/Space/Shift keys (3D)
+ * 
+ * @param control Controller to bind
+ */
+void OGL_BindControllerWASDShiftSpace3D(OGL_Controller* control);
 
 /**
  * @brief Handle controller's keyboard input 
