@@ -23,17 +23,6 @@ extern OGL_Camera* OGL_RenderView;
 void OGL_BindCameraToRenderView(OGL_Camera* cam);
 
 /**
- * @brief Creates the graphics pipeline, with the vertex and
- * fragment shader
- * 
- * @param vs Vertex shader to attach to the object
- * @param fs Fragment shader to attach to the object
- * 
- * @returns Object to store the shaders
- */
-GLuint OGL_CreateGraphicsPipeline(const std::string& vs, const std::string& fs);
- 
-/**
  * @brief Pre draws to the window, sets OpenGL's state
  * 
  * @param graphicsPipeline Instruct what graphics pipeline to use

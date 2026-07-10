@@ -9,6 +9,7 @@
 
 #include <iostream> /* Printing */
 #include <vector>   /* For vectors */
+#include <array>
 
 /**
  * @brief Contains The Vertex Buffer Objects, Vertex Array Object
@@ -59,20 +60,19 @@ typedef struct OGL_VertexObject{
  * data in the CPU for updating
  */
 typedef struct OGL_Object{
-    OGL_VertexObject* mesh; /* Mesh, GPU data */
-
-    GLuint shader; /* Shader to use for rendering */
+    OGL_VertexObject* mesh;                                         /* Mesh, GPU data */
+    GLuint shader;                                                  /* Shader to use for rendering */
 
     /* CPU data, TRS to get the model */
 
-    float position[3];  /* Position to update, and pass to the GPU as uniform for model */
-    float rotation[3];  /* Rotation to update and pass to the GPU as uniform for model */
-    float scale[3];     /* Scale to update and pass to the GPU as uniform for model */
+    std::array<float, 3> position = {0.0f, 0.0f, 0.0f};             /* Position to update, and pass to the GPU as uniform for model */
+    std::array<float, 3> rotation = {0.0f, 0.0f, 0.0f};             /* Rotation to update and pass to the GPU as uniform for model */
+    std::array<float, 3> scale    = {1.0f, 1.0f, 1.0f};             /* Scale to update and pass to the GPU as uniform for model */
     
     /* Uniforms */
-    float color[4];             /* Color uniform variables, to change per cycle */
-    OGL_Material mat;           /* Object material */
-    // TODO: OGL_LightSource light;      /* Light emitted by the object */
+    std::array<float, 4> color = {1.0f, 1.0f, 1.0f, 1.0f};          /* Color uniform variables, to change per cycle */
+    OGL_Material mat;                                               /* Object material */
+    // TODO: OGL_LightSource light;                                 /* Light emitted by the object */
     /* ... */
 }OGL_Object;
 

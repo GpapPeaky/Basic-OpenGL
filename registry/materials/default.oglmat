@@ -1,0 +1,9 @@
+id = "Unlit Material"
+
+ambient  = [1.0 1.0 1.0]
+diffuse  = [1.0 1.0 1.0]
+specular = [1.0 1.0 1.0]
+emit     = [1.0 1.0 1.0]
+
+shininess      = 0.0
+emissiveness   = 0.0

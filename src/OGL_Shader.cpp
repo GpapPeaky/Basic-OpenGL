@@ -1,5 +1,7 @@
 #include "OGL_Shader.hpp"
 
+std::unordered_map<std::string, OGL_Shader> OGL_ShaderRegistry;
+
 GLuint OGL_CompileShader(GLuint type, const std::string& sourceCode){
     /* Created shader object */
     GLuint shaderObject;
@@ -34,7 +36,7 @@ GLuint OGL_CompileShader(GLuint type, const std::string& sourceCode){
     return shaderObject;
 }
 
-GLuint OGL_CreateShaderProgram(const std::string& vertexShader, const std::string& fragmentShader){
+GLuint OGL_CreateShaderProgram(std::string shaderId, const std::string& vertexShader, const std::string& fragmentShader){
     /* We will fill it's parts with the shaders */
     GLuint programObject = glCreateProgram();
 
@@ -48,5 +50,19 @@ GLuint OGL_CreateShaderProgram(const std::string& vertexShader, const std::strin
     /* Validate the program */
     glValidateProgram(programObject);
 
+    OGL_ShaderRegistry.insert({shaderId, programObject});
+
     return programObject;
+}
+
+void OGL_InitShaderRegistry(void){
+    OGL_CreateShaderProgram("rootobj", OGLS_ROOT_OBJ_V, OGLS_ROOT_OBJ_F);
+    OGL_CreateShaderProgram("color", OGLS_TRS_MVP_ColorV, OGLS_TRS_MVP_ColorF);
+    OGL_CreateShaderProgram("bp_attenuated_tex", OGLS_TRS_MVP_Lit_Blinn_Phong_Texture_AttenuatedV, OGLS_TRS_MVP_Lit_Blinn_Phong_Texture_AttenuatedF);
+    OGL_CreateShaderProgram("bp_tex", OGLS_TRS_MVP_Lit_Blinn_Phong_TextureV, OGLS_TRS_MVP_Lit_Blinn_Phong_TextureF);
+    OGL_CreateShaderProgram("tex", OGLS_TRS_MVP_TextureV, OGLS_TRS_MVP_TextureF);
+}
+
+OGL_Shader OGL_GetShader(std::string id){
+    return OGL_ShaderRegistry.find(id)->second;
 }

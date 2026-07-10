@@ -91,6 +91,8 @@ void OGL_BindControllerWASD2D(OGL_Controller* control){
     OGL_BindControllerUpward(control, SDL_SCANCODE_W);
     OGL_BindControllerDownward(control, SDL_SCANCODE_S);
 
+    control->mouse = false;
+
     return;
 }
 
@@ -99,6 +101,8 @@ void OGL_BindControllerArrowKeys2D(OGL_Controller* control){
     OGL_BindControllerRightward(control, SDL_SCANCODE_RIGHT);
     OGL_BindControllerUpward(control, SDL_SCANCODE_UP);
     OGL_BindControllerDownward(control, SDL_SCANCODE_DOWN);
+
+    control->mouse = false;
 
     return;
 }
@@ -110,7 +114,9 @@ void OGL_BindControllerArrowKeys2D(OGL_Controller* control){
 #define OGL_BindControllerDefault2D(control) OGL_BindControllerWASD2D(control)
 
 void OGL_BindControllerWASDShiftSpace(OGL_Controller* control){
-    // TODO    
+    OGL_BindControllerWASD3D(control);
+    OGL_BindControllerUpward(control, SDL_SCANCODE_SPACE);    
+    OGL_BindControllerDownward(control, SDL_SCANCODE_LSHIFT);    
     
     return;
 }
@@ -169,8 +175,10 @@ void OGL_HandleControllerMouse(OGL_Controller* control, float xRel, float yRel){
     float xOff = xRel * control->sensitivity;
     float yOff = yRel * control->sensitivity;
 
-    cam->yaw -= xOff;
-    cam->pitch -= yOff;
+    if(control->mouse){
+        cam->yaw    -= xOff;
+        cam->pitch  -= yOff;
+    }
 
     /* Prevent camera flipping */
     // if(cam->pitch > 89.0f) cam->pitch = 89.0f;

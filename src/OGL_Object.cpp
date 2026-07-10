@@ -4,6 +4,9 @@ OGL_Object* OGL_CreateObject(GLuint s){
     OGL_Object* newObj = new OGL_Object;
     newObj->mesh = new OGL_VertexObject; /* Or render mesh */
     newObj->shader = s;
+    newObj->position = {0.0f, 0.0f, 0.0f};
+    newObj->rotation = {0.0f, 0.0f, 0.0f};
+    newObj->scale    = {1.0f, 1.0f, 1.0f};
 
     /* The mesh will be populated elsewhere */
 

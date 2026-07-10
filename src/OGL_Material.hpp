@@ -1,13 +1,15 @@
 #pragma once
 
+#include <array>
+
 /* An object's material data */
 typedef struct OGL_Material{
-    float ambient[3];           /* Object's color under ambient light */ 
-    float diffuse[3];           /* Object's color under diffuse light */
-    float specular[3];          /* Object's color under specular light */
-    float shininess;            /* How shiny the object is, intensity of the specular light */
-    float emit[3];              /* Object's emission colour */
-    float emissiveness;         /* Emit light intensity */
+    std::array<float, 3> ambient    = {0.0f, 0.0f, 0.0f};        /* Object's color under ambient light */ 
+    std::array<float, 3> diffuse    = {0.0f, 0.0f, 0.0f};        /* Object's color under diffuse light */
+    std::array<float, 3> specular   = {0.0f, 0.0f, 0.0f};        /* Object's color under specular light */
+    float shininess                 = 0.0f;                      /* How shiny the object is, intensity of the specular light */
+    std::array<float, 3> emit       = {0.0f, 0.0f, 0.0f};        /* Object's emission colour */
+    float emissiveness              = 0.0f;                      /* Emit light intensity */
 }OGL_Material;
 
 /**
@@ -22,4 +24,4 @@ typedef struct OGL_Material{
  * 
  * @returns The newly created material
  */
-OGL_Material OGL_CreateMaterial(float ambient[3], float diffuse[3], float specular[3], float shininess, float  emit[3], float emissiveness);
+OGL_Material OGL_CreateMaterial(std::array<float, 3> ambient, std::array<float, 3> diffuse, std::array<float, 3> specular, float shininess, std::array<float, 3> emit, float emissiveness);

@@ -8,10 +8,6 @@ void OGL_BindCameraToRenderView(OGL_Camera* cam){
     return;
 }
 
-GLuint OGL_CreateGraphicsPipeline(const std::string& vs, const std::string& fs){
-    return OGL_CreateShaderProgram(vs, fs);;
-}
-
 void OGL_PreDraw(GLuint graphicsPipeline){
     /* Save the current OpenGL state */
     GLint depthTestEnabled, cullFaceEnabled;
@@ -78,29 +74,29 @@ void OGL_Render(OGL_Object* object){
     OGL_PreDraw(object->shader);
 
     /* Send model TRS */
-    glUniform3fv(glGetUniformLocation(object->shader, "uTrans"),     1, object->position);
-    glUniform3fv(glGetUniformLocation(object->shader, "uRotate"),    1, object->rotation);
-    glUniform3fv(glGetUniformLocation(object->shader, "uScale"),     1, object->scale);
+    glUniform3fv(glGetUniformLocation(object->shader, "uTrans"),     1,         object->position.data());
+    glUniform3fv(glGetUniformLocation(object->shader, "uRotate"),    1,         object->rotation.data());
+    glUniform3fv(glGetUniformLocation(object->shader, "uScale"),     1,         object->scale.data());
 
     /* Send camera matrices */
     glUniformMatrix4fv(glGetUniformLocation(object->shader, "uView"), 1, GL_FALSE, glm::value_ptr(OGL_GetViewMatrix(OGL_RenderView)));
     glUniformMatrix4fv(glGetUniformLocation(object->shader, "uProj"), 1, GL_FALSE, glm::value_ptr(OGL_GetProjMatrix(OGL_RenderView)));
 
     /* Send color */
-    glUniform4fv(glGetUniformLocation(object->shader, "uColor"), 1, object->color);
+    glUniform4fv(glGetUniformLocation(object->shader, "uColor"),      1,        object->color.data());
 
     /* Send light, for now static */
-    glUniform3fv(glGetUniformLocation(object->shader, "uLightDir"), 1, glm::value_ptr(glm::vec3(0.0f, 4.0f, 0.0f)));
-    glUniform3fv(glGetUniformLocation(object->shader, "uLightColor"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
-    glUniform1f(glGetUniformLocation(object->shader, "uLightIntensity"), 2.0f);
+    glUniform3fv(glGetUniformLocation(object->shader, "uLightDir"),         1,      glm::value_ptr(glm::vec3(0.0f, 4.0f, 0.0f)));
+    glUniform3fv(glGetUniformLocation(object->shader, "uLightColor"),       1,      glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+    glUniform1f(glGetUniformLocation(object->shader,  "uLightIntensity"),   2.0f);
     
     /* Send object material */
-    glUniform3fv(glGetUniformLocation(object->shader, "uMatAmbientColor"), 1, object->mat.ambient);
-    glUniform3fv(glGetUniformLocation(object->shader, "uMatDiffuseColor"), 1, object->mat.diffuse);
-    glUniform3fv(glGetUniformLocation(object->shader, "uMatSpecularColor"), 1, object->mat.specular);
-    glUniform3fv(glGetUniformLocation(object->shader, "uMatEmitColor"), 1, object->mat.emit);
-    glUniform1f(glGetUniformLocation(object->shader, "uMatEmitIntensity"), object->mat.emissiveness);
-    glUniform1f(glGetUniformLocation(object->shader, "uMatShininess"), object->mat.shininess);
+    glUniform3fv(glGetUniformLocation(object->shader, "uMatAmbientColor"),  1,  object->mat.ambient.data());
+    glUniform3fv(glGetUniformLocation(object->shader, "uMatDiffuseColor"),  1,  object->mat.diffuse.data());
+    glUniform3fv(glGetUniformLocation(object->shader, "uMatSpecularColor"), 1,  object->mat.specular.data());
+    glUniform3fv(glGetUniformLocation(object->shader, "uMatEmitColor"),     1,  object->mat.emit.data());
+    glUniform1f(glGetUniformLocation(object->shader,  "uMatEmitIntensity"),     object->mat.emissiveness);
+    glUniform1f(glGetUniformLocation(object->shader,  "uMatShininess"),         object->mat.shininess);
     
     OGL_DrawObject(object->mesh);
     

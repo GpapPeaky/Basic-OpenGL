@@ -17,6 +17,8 @@ typedef struct OGL_Controller{
     SDL_Scancode* upwardScancode;        /* Scancode for upward movement */
     SDL_Scancode* downwardScancode;      /* Scancode for downward movement */
 
+    int mouse = 1;                       /* Mouse has an effect in the camera's view when moving */
+
     int firstMouse;                      /* Flag to avoid sudden mouse jumps on input */
     float lastX;                         /* Last mouse screen X */
     float lastY;                         /* Last mouse screen Y */
