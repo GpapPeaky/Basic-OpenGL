@@ -10,6 +10,7 @@ typedef struct OGL_ONode{
     OGL_Object* o;                      /* Object data */
     int active = 1;                     /* Node is active, if NOT active, it will not be rendered, and cannot be interacted with! If the node has children
                                             they will also be omitted from updates and render visits */
+    int visible = 1;                    /* If visible is 0, then the object will update but it will NOT be rendered */
     std::vector<OGL_ONode*> children;   /* Object's children */
 }OGL_ONode;
 

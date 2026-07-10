@@ -120,8 +120,7 @@ int main(int argc, char* argv[]){
         onode1->o->position[0] = radius * cos(theta);
         onode1->o->position[2] = radius * sin(theta);
 
-        // OGL_SetScreenBackground(0.f, 0.3f, 0.95f, 1.f);
-        OGL_SetScreenBackground(0.f, 0.f, 0.f, 1.f);
+        OGL_SetScreenBackground(0.f, 0.3f, 0.95f, 1.f);
 
         OGL_RenderVisitChildren(OGL_Scene);
     
