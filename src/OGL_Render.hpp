@@ -9,6 +9,7 @@
 #include "OGL_Object.hpp"        // For the vertex object abstraction
 #include "OGL_ObjectNode.hpp"    // For rendering objects with hierarchy
 #include "OGL_Camera.hpp"        // For the camera
+#include "OGL_Time.hpp"          // For time
 
 #include "../ThirdParty/glm/gtc/type_ptr.hpp" // Type shit idk
 
