@@ -92,6 +92,7 @@ void OGL_BindControllerWASD2D(OGL_Controller* control){
     OGL_BindControllerDownward(control, SDL_SCANCODE_S);
 
     control->mouse = false;
+    control->mouseZoom = true;
 
     return;
 }
@@ -102,6 +103,7 @@ void OGL_BindControllerArrowKeys2D(OGL_Controller* control){
     OGL_BindControllerUpward(control, SDL_SCANCODE_UP);
     OGL_BindControllerDownward(control, SDL_SCANCODE_DOWN);
 
+    control->mouseZoom = true;
     control->mouse = false;
 
     return;

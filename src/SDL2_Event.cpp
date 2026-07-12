@@ -15,6 +15,18 @@ void SDL2_HandleEvents(bool& quit, OGL_Controller* ctrl){
             
             OGL_HandleControllerMouse(ctrl, xRel, yRel);
         }
+
+        /* Basic mouse zoom in/out */
+        if(e.type == SDL_MOUSEWHEEL){
+            if(ctrl->mouseZoom){
+                if(e.wheel.y > 0.0f){
+                    OGL_RenderView->pos.z -= 1.0f;
+                }else if(e.wheel.y < 0.0f){
+                    // zoom out
+                    OGL_RenderView->pos.z += 1.0f;
+                }
+            }
+        }
     }
 
     return;

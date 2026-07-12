@@ -4,6 +4,7 @@
 
 #include "OGL_Object.hpp"
 #include "OGL_Controller.hpp"
+#include "OGL_Render.hpp"
 
 /**
  * @brief Handles main loop events
