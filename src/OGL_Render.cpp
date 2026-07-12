@@ -86,9 +86,9 @@ void OGL_Render(OGL_Object* object){
     glUniform4fv(glGetUniformLocation(object->shader, "uColor"),      1, object->color.data());
 
     /* Send light, for now static */
-    glUniform3fv(glGetUniformLocation(object->shader, "uLightDir"),         1,      glm::value_ptr(glm::vec3(0.0f, 4.0f, 0.0f)));
-    glUniform3fv(glGetUniformLocation(object->shader, "uLightColor"),       1,      glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
-    glUniform1f(glGetUniformLocation (object->shader,  "uLightIntensity"),  2.0f);
+    glUniform3fv(glGetUniformLocation(object->shader,  "uLightDir"),         1,      glm::value_ptr(glm::vec3(0.0f, 4.0f, 0.0f)));
+    glUniform3fv(glGetUniformLocation(object->shader,  "uLightColor"),       1,      glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+    glUniform1f(glGetUniformLocation (object->shader,  "uLightIntensity"),   2.0f);
     
     /* Time info */
     glUniform1f(glGetUniformLocation (object->shader,  "uDeltaTime"),        OGL_GameDt);
