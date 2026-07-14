@@ -53,6 +53,7 @@ typedef struct OGL_VertexObject{
     // GLuint RGBVBO; /* colours: vertex buffer object */
     GLuint IBO; /* Index Buffer Object, for vertices rendering order (we can skip vertices repeating in quads like this) */
     Uint8 verticesCount; /* Count of vertices for when the drawing function is called */
+    GLuint texture;
 }OGL_VertexObject;
 
 /**

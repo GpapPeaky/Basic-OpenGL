@@ -64,9 +64,8 @@ void OGL_CreateTextureQuad(OGL_VertexObject& object){
 }
 
 void OGL_LoadBitmapToObject(OGL_VertexObject& object, const char* bitmap){
-    GLuint texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture); /* Bind the texture, and it's type */
+    glGenTextures(1, &object.texture);
+    glBindTexture(GL_TEXTURE_2D, object.texture); /* Bind the texture, and it's type */
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -90,9 +89,6 @@ void OGL_LoadBitmapToObject(OGL_VertexObject& object, const char* bitmap){
 
     /* Free the data here */
     stbi_image_free(data);
-
-    /* Pass the proccessed data onto the VBO */
-    object.VBO = texture;
 
     return;
 }
