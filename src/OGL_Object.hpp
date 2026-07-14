@@ -53,7 +53,6 @@ typedef struct OGL_VertexObject{
     // GLuint RGBVBO; /* colours: vertex buffer object */
     GLuint IBO; /* Index Buffer Object, for vertices rendering order (we can skip vertices repeating in quads like this) */
     Uint8 verticesCount; /* Count of vertices for when the drawing function is called */
-    GLuint texture;
 }OGL_VertexObject;
 
 /**
@@ -62,7 +61,6 @@ typedef struct OGL_VertexObject{
  */
 typedef struct OGL_Object{
     OGL_VertexObject* mesh;                                         /* Mesh, GPU data */
-    GLuint shader;                                                  /* Shader to use for rendering */
 
     /* CPU data, TRS to get the model */
 
@@ -71,7 +69,6 @@ typedef struct OGL_Object{
     std::array<float, 3> scale    = {1.0f, 1.0f, 1.0f};             /* Scale to update and pass to the GPU as uniform for model */
     
     /* Uniforms */
-    std::array<float, 4> color = {1.0f, 1.0f, 1.0f, 1.0f};          /* Color uniform variables, to change per cycle */
     OGL_Material mat;                                               /* Object material */
     // TODO: OGL_LightSource light;                                 /* Light emitted by the object */
     /* ... */

@@ -22,7 +22,7 @@ void OGL_CreateTextureQuad(OGL_VertexObject& object);
  * 
  * @warning Make sure you have created a texture quad vertex object
  */
-void OGL_LoadBitmapToObject(OGL_VertexObject& object, const char* bitmap); /* TODO: Review one by one what this does */
+void OGL_LoadBitmapToObject(OGL_Object& object, const char* bitmap); /* TODO: Review one by one what this does */
 
 /**
  * @brief Loads a texture to the texture quad

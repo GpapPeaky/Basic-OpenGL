@@ -29,7 +29,7 @@ int main(int, char**){
     /* Plane creation */
     OGL_Object* plane = OGL_CreateObject(OGL_GetShader("tex"));
     OGL_CreateTextureQuad(*plane->mesh);
-    OGL_LoadBitmapToObject(*plane->mesh, "assets/a2.bmp");
+    OGL_LoadBitmapToObject(*plane, "assets/a2.bmp");
     /* Create the object node */
     OGL_ONode* onodePlane = OGL_CreateNode(plane, "plane");
     TRS::S(*plane, {10.0f * 2.035f, 10.f, 1.f});

@@ -63,9 +63,9 @@ void OGL_CreateTextureQuad(OGL_VertexObject& object){
     return;
 }
 
-void OGL_LoadBitmapToObject(OGL_VertexObject& object, const char* bitmap){
-    glGenTextures(1, &object.texture);
-    glBindTexture(GL_TEXTURE_2D, object.texture); /* Bind the texture, and it's type */
+void OGL_LoadBitmapToObject(OGL_Object& object, const char* bitmap){
+    glGenTextures(1, &object.mat.texture);
+    glBindTexture(GL_TEXTURE_2D, object.mat.texture); /* Bind the texture, and it's type */
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

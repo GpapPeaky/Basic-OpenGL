@@ -1,5 +1,8 @@
 #pragma once
 
+#include "../ThirdParty/SDL2/include/SDL2/SDL.h"    /* SDL2 */
+#include "../ThirdParty/GLAD/include/glad/glad.h"   /* GLAD */
+
 #include <array>
 
 /* An object's material data */
@@ -10,6 +13,9 @@ typedef struct OGL_Material{
     float shininess                 = 0.0f;                      /* How shiny the object is, intensity of the specular light */
     std::array<float, 3> emit       = {0.0f, 0.0f, 0.0f};        /* Object's emission colour */
     float emissiveness              = 0.0f;                      /* Emit light intensity */
+
+    GLuint shader = 0;
+    GLuint texture = 0;
 }OGL_Material;
 
 /**
