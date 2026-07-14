@@ -13,7 +13,7 @@ int SDL2_InitWin(void){
     }
 
     /* Initialising window and renderer */
-    SDL2_Win = SDL_CreateWindow("SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 800, SDL_WINDOW_OPENGL);
+    SDL2_Win = SDL_CreateWindow("KENG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 800, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP);
     if(SDL2_Win == NULL){
         std::fprintf(stderr, "OGL_SDL2_ERR: Failed to create window: %s\n", SDL_GetError());
         return FAILURE;
