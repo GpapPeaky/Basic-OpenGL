@@ -37,7 +37,7 @@ int SDL2_InitWin(void){
     std::printf("Window Size: %ux%u, Aspect Ratio: %f\n", SDL2_WinWidth, SDL2_WinHeight, SDL2_AspectRatio);
 
     /* Relative mouse coordinates */
-    SDL_SetRelativeMouseMode(SDL_TRUE);
+    SDL_SetRelativeMouseMode(SDL_TRUE); // Default for 3D
     SDL_SetHint(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "0");
 
     return SUCCESS;

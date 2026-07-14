@@ -20,7 +20,7 @@ int main(int, char**){
     OGL_BindCameraToRenderView(cam);
     
     /* Bind controller keys */
-    OGL_BindControllerWASD2D(ctrl);
+    OGL_BindControllerWASD3D(ctrl);
     
     /* Lightweight root object */
     OGL_Object* rootObj = OGL_CreateObject(OGL_GetShader("rootobj"));

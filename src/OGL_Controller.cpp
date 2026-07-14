@@ -94,6 +94,9 @@ void OGL_BindControllerWASD2D(OGL_Controller* control){
     control->mouse = false;
     control->mouseZoom = true;
 
+    SDL_SetRelativeMouseMode(SDL_FALSE);
+    // SDL_SetHint(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "0");
+
     return;
 }
 
@@ -105,6 +108,9 @@ void OGL_BindControllerArrowKeys2D(OGL_Controller* control){
 
     control->mouseZoom = true;
     control->mouse = false;
+
+    SDL_SetRelativeMouseMode(SDL_FALSE);
+    // SDL_SetHint(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "0");
 
     return;
 }
