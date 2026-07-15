@@ -64,8 +64,8 @@ void OGL_CreateTextureQuad(OGL_VertexObject& object){
 }
 
 void OGL_LoadBitmapToObject(OGL_Object& object, const char* bitmap){
-    glGenTextures(1, &object.mat.texture);
-    glBindTexture(GL_TEXTURE_2D, object.mat.texture); /* Bind the texture, and it's type */
+    glGenTextures(1, &object.mat.texture.texture);
+    glBindTexture(GL_TEXTURE_2D, object.mat.texture.texture); /* Bind the texture, and it's type */
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -82,6 +82,19 @@ void OGL_LoadBitmapToObject(OGL_Object& object, const char* bitmap){
             /* Upload texture to OpenGL */
             glTexImage2D(GL_TEXTURE_2D, 0, format, w, h, 0, format, GL_UNSIGNED_BYTE, data);
             glGenerateMipmap(GL_TEXTURE_2D); /* Texture scaling mipmaps */
+
+            /* Save bitmap data for later use */
+            object.mat.texture.cpuPixels = new unsigned char[w * h * channels];
+
+            std::memcpy( /* Copy memory */
+                object.mat.texture.cpuPixels,
+                data,
+                w * h * channels
+            );
+
+            object.mat.texture.width = w;
+            object.mat.texture.height = h;
+            object.mat.texture.channels = channels;
         }
     }else{
         std::fprintf(stderr, "OGL_ERR: Failed to load bitmap %s (%s)\n", bitmap, stbi_failure_reason());
@@ -91,4 +104,84 @@ void OGL_LoadBitmapToObject(OGL_Object& object, const char* bitmap){
     stbi_image_free(data);
 
     return;
+}
+
+std::array<unsigned char, 3> OGL_GetHoveredColourFromTexture(const OGL_Texture& texture, const glm::mat4& model, OGL_Camera* cam){
+    if(!texture.cpuPixels){
+        std::fprintf(stderr, "OGL_ERR: Texture has no CPU pixel data\n");
+        return {0, 0, 0};
+    }
+
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
+
+    int windowWidth, windowHeight;
+    SDL_GetWindowSize(SDL2_Win, &windowWidth, &windowHeight);
+
+    // Mouse -> Normalized Device Coordinates
+    float ndcX = (2.0f * mouseX) / windowWidth - 1.0f;
+    float ndcY = 1.0f - (2.0f * mouseY) / windowHeight;
+
+    glm::vec4 rayClip(ndcX, ndcY, -1.0f, 1.0f);
+
+    glm::mat4 projection = OGL_GetProjMatrix(cam);
+    glm::mat4 view = OGL_GetViewMatrix(cam);
+
+    // Clip -> Eye
+    glm::vec4 rayEye = glm::inverse(projection) * rayClip;
+    rayEye.z = -1.0f;
+    rayEye.w = 0.0f;
+
+    // Eye -> World
+    glm::vec3 rayDir = glm::normalize(
+        glm::vec3(glm::inverse(view) * rayEye));
+
+    glm::vec3 rayOrigin = cam->pos;
+
+    // World -> Local
+    glm::mat4 invModel = glm::inverse(model);
+
+    glm::vec3 localOrigin =
+        glm::vec3(invModel * glm::vec4(rayOrigin, 1.0f));
+
+    glm::vec3 localDir =
+        glm::normalize(glm::vec3(invModel * glm::vec4(rayDir, 0.0f)));
+
+    // Intersect with local Z = 0 plane
+    if (fabs(localDir.z) < 1e-6f)
+        return {0, 0, 0};
+
+    float t = -localOrigin.z / localDir.z;
+
+    if (t < 0.0f)
+        return {0, 0, 0};
+
+    glm::vec3 hit = localOrigin + t * localDir;
+
+    // Outside quad?
+    if (hit.x < -1.0f || hit.x > 1.0f ||
+        hit.y < -1.0f || hit.y > 1.0f)
+        return {0, 0, 0};
+
+    // Local -> UV
+    float u = (hit.x + 1.0f) * 0.5f;
+    float v = 1.0f - (hit.y + 1.0f) * 0.5f;
+
+    
+    int px = glm::clamp(
+        int(u * texture.width),
+        0,
+        texture.width - 1);
+        
+    int py = glm::clamp(
+        int(v * texture.height),
+        0,
+        texture.height - 1);
+            
+    // Need to alloc memory fro cpuPixels?
+    const unsigned char* p =
+        texture.cpuPixels +
+        (py * texture.width + px) * texture.channels;
+
+    return { p[0], p[1], p[2] };
 }

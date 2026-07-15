@@ -41,3 +41,48 @@ void OGL_AssignMaterialToObject(OGL_Object* obj, OGL_Material mat){
     
     return;
 }
+
+glm::mat4 OGL_GetModel(const OGL_Object& obj){
+    glm::mat4 model(1.0f);
+
+    // Translation
+    model = glm::translate(
+        model,
+        glm::vec3(
+            obj.position[0],
+            obj.position[1],
+            obj.position[2]
+        )
+    );
+
+    // Rotation (degrees)
+    model = glm::rotate(
+        model,
+        glm::radians(obj.rotation[0]),
+        glm::vec3(1, 0, 0)
+    );
+
+    model = glm::rotate(
+        model,
+        glm::radians(obj.rotation[1]),
+        glm::vec3(0, 1, 0)
+    );
+
+    model = glm::rotate(
+        model,
+        glm::radians(obj.rotation[2]),
+        glm::vec3(0, 0, 1)
+    );
+
+    // Scale
+    model = glm::scale(
+        model,
+        glm::vec3(
+            obj.scale[0],
+            obj.scale[1],
+            obj.scale[2]
+        )
+    );
+
+    return model;
+}

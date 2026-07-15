@@ -2,6 +2,7 @@
 
 #include "../ThirdParty/SDL2/include/SDL2/SDL.h"    /* SDL2 */
 #include "../ThirdParty/GLAD/include/glad/glad.h"   /* GLAD */
+#include "OGL_Texture.hpp"
 
 #include <array>
 
@@ -15,7 +16,7 @@ typedef struct OGL_Material{
     float emissiveness              = 0.0f;                      /* Emit light intensity */
 
     GLuint shader = 0;
-    GLuint texture = 0;
+    OGL_Texture texture;
 }OGL_Material;
 
 /**

@@ -2,7 +2,11 @@
 
 #include "OGL_Object.hpp"                       /* Object abstraction */
 
+#include "OGL_Camera.hpp"
+
 #include "SDL2_InitWin.hpp"                     /* Window data */
+
+#include "OGL_Texture.hpp"
 
 /**
  * @brief Creates a texture quad. Vertices
@@ -34,3 +38,14 @@ void OGL_LoadBitmapToObject(OGL_Object& object, const char* bitmap); /* TODO: Re
  * @warning Make sure you have created a texture quad vertex object
  */
 #define OGL_LoadBitmap(o, bmp) OGL_LoadBitmapToObject(o, bmp);
+
+/**
+ * @brief Get hovered colour from texture, based on mouse coordinates
+ * 
+ * @param texture Texture to read pixel from
+ * @param model Model of the object
+ * @param cam Camera for tranformations
+ * 
+ * @returns RGB color found
+ */
+std::array<unsigned char, 3> OGL_GetHoveredColourFromTexture(const OGL_Texture& texture, const glm::mat4& model, OGL_Camera* cam);

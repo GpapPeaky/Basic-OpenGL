@@ -101,3 +101,13 @@ void OGL_AssignColorToObject(OGL_Object* obj, float r, float g, float b, float a
  * @param mat Material to assign
  */
 void OGL_AssignMaterialToObject(OGL_Object* obj, OGL_Material mat);
+
+
+/**
+ * @brief Get the model matrix of an object
+ * 
+ * @param obj Object to get the model of
+ * 
+ * @returns Model matrix
+ */
+glm::mat4 OGL_GetModel(const OGL_Object& obj);
