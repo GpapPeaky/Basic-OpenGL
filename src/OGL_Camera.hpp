@@ -18,19 +18,21 @@ typedef enum OGL_CameraMovement{
 }OGL_CameraMovement;
 
 typedef struct OGL_Camera{
-    glm::vec3 pos;          /* Camera position */
-    glm::vec3 front;        /* */
-    glm::vec3 up;           /* */
-    glm::vec3 right;        /* */
-    glm::vec3 worldUp;      /* */
+    glm::vec3 pos       = {0.f, 0.f, 0.f};           /* Camera position */
+    glm::vec3 front     = {0.f, 0.f, 0.f};           /* */
+    glm::vec3 up        = {0.f, 0.f, 0.f};           /* */
+    glm::vec3 right     = {0.f, 0.f, 0.f};           /* */
+    glm::vec3 worldUp   = {0.f, 0.f, 0.f};           /* */
 
-    float fov;
-    float aspect;
-    float nearPlane;
-    float farPlane;
+    float fov = 0.0f;
+    float aspect = 0.0f;
+    float nearPlane = 0.0f;
+    float farPlane = 0.0f;
 
-    float yaw;              /* Euler angles */
-    float pitch;
+    float yaw = 0.0f;              /* Euler angles */
+    float pitch = 0.0f;
+
+    float zoom = 0.0f;
 }OGL_Camera;
 
 /**

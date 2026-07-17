@@ -20,10 +20,10 @@ void SDL2_HandleEvents(bool& quit, OGL_Controller* ctrl){
         if(e.type == SDL_MOUSEWHEEL){
             if(ctrl->mouseZoom){
                 if(e.wheel.y > 0.0f){
-                    OGL_RenderView->pos.z -= 1.0f;
+                    OGL_RenderView->pos.z -= 0.5f;
                 }else if(e.wheel.y < 0.0f){
                     // zoom out
-                    OGL_RenderView->pos.z += 1.0f;
+                    OGL_RenderView->pos.z += 0.5f;
                 }
             }
         }

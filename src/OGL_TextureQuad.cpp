@@ -12,10 +12,10 @@ void OGL_CreateTextureQuad(OGL_VertexObject& object){
     // Vertex data: position (x, y, z), color (r, g, b), texture coords (s, t)
     const std::vector<GLfloat> vertices = {
         // Positions                   // Colors          // TexCoords
-        -1.0f, -1.0f, 0.0f,            0.0f, 0.0f, 0.0f,  0.0f, 1.0f,  // Bottom Left
-         1.0f, -1.0f, 0.0f,            0.0f, 0.0f, 0.0f,  1.0f, 1.0f,  // Bottom Right
-         1.0f,  1.0f, 0.0f,            0.0f, 0.0f, 0.0f,  1.0f, 0.0f,  // Top Right
-        -1.0f,  1.0f, 0.0f,            0.0f, 0.0f, 0.0f,  0.0f, 0.0f   // Top Left
+        -1.0f, -1.0f, 0.0f,            0.0f, 0.0f, 0.0f,  1.0f, 1.0f,  // Bottom Left
+         1.0f, -1.0f, 0.0f,            0.0f, 0.0f, 0.0f,  0.0f, 1.0f,  // Bottom Right
+         1.0f,  1.0f, 0.0f,            0.0f, 0.0f, 0.0f,  0.0f, 0.0f,  // Top Right
+        -1.0f,  1.0f, 0.0f,            0.0f, 0.0f, 0.0f,  1.0f, 0.0f   // Top Left
     };
 
     /* Index buffer (EBO/IBO) */
@@ -72,6 +72,8 @@ void OGL_LoadBitmapToObject(OGL_Object& object, const char* bitmap){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+    stbi_set_flip_vertically_on_load(true);
+
     int w, h, channels;
     unsigned char* data = stbi_load(bitmap, &w, &h, &channels, 0);
 
@@ -111,6 +113,9 @@ std::array<unsigned char, 3> OGL_GetHoveredColourFromTexture(const OGL_Texture& 
         std::fprintf(stderr, "OGL_ERR: Texture has no CPU pixel data\n");
         return {0, 0, 0};
     }
+
+    std::fprintf(stderr, "tex: w=%d h=%d ch=%d ptr=%p\n",
+        texture.width, texture.height, texture.channels, (void*)texture.cpuPixels);
 
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
@@ -164,10 +169,9 @@ std::array<unsigned char, 3> OGL_GetHoveredColourFromTexture(const OGL_Texture& 
         return {0, 0, 0};
 
     // Local -> UV
-    float u = (hit.x + 1.0f) * 0.5f;
-    float v = 1.0f - (hit.y + 1.0f) * 0.5f;
+    float u = (hit.x + 1.0f) * 0.5f;          // reverted — no flip
+    float v = (hit.y + 1.0f) * 0.5f;   // flipped from before
 
-    
     int px = glm::clamp(
         int(u * texture.width),
         0,
@@ -182,6 +186,9 @@ std::array<unsigned char, 3> OGL_GetHoveredColourFromTexture(const OGL_Texture& 
     const unsigned char* p =
         texture.cpuPixels +
         (py * texture.width + px) * texture.channels;
+
+    std::fprintf(stderr, "hit=(%.3f,%.3f) uv=(%.3f,%.3f) px=(%d,%d) rgb=(%d,%d,%d)\n",
+        hit.x, hit.y, u, v, px, py, p[0], p[1], p[2]);
 
     return { p[0], p[1], p[2] };
 }

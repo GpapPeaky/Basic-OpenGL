@@ -33,7 +33,6 @@ int main(int, char**){
     /* Create the object node */
     OGL_ONode* onodePlane = OGL_CreateNode(plane, "plane");
     TRS::S(*plane, {10.0f * 2.035f, 10.f, 1.f});
-    TRS::R(*plane, {0.f, 0.f, 180.f});
     /* Hierarchy */
     OGL_AttachChild(OGL_Scene, onodePlane);
 
