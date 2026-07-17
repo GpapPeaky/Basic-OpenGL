@@ -114,9 +114,6 @@ std::array<unsigned char, 3> OGL_GetHoveredColourFromTexture(const OGL_Texture& 
         return {0, 0, 0};
     }
 
-    std::fprintf(stderr, "tex: w=%d h=%d ch=%d ptr=%p\n",
-        texture.width, texture.height, texture.channels, (void*)texture.cpuPixels);
-
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
 
@@ -186,9 +183,6 @@ std::array<unsigned char, 3> OGL_GetHoveredColourFromTexture(const OGL_Texture& 
     const unsigned char* p =
         texture.cpuPixels +
         (py * texture.width + px) * texture.channels;
-
-    std::fprintf(stderr, "hit=(%.3f,%.3f) uv=(%.3f,%.3f) px=(%d,%d) rgb=(%d,%d,%d)\n",
-        hit.x, hit.y, u, v, px, py, p[0], p[1], p[2]);
 
     return { p[0], p[1], p[2] };
 }
