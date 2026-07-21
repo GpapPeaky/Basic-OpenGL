@@ -25,7 +25,6 @@ void OGL_AssignColorToObject(OGL_Object* obj, float r, float g, float b, float a
     obj->mat.diffuse[0] = r;
     obj->mat.diffuse[1] = g;
     obj->mat.diffuse[2] = b;
-    obj->mat.diffuse[3] = a;
 
     return;
 }

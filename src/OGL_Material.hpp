@@ -9,7 +9,7 @@
 /* An object's material data */
 typedef struct OGL_Material{
     std::array<float, 3> ambient    = {0.0f, 0.0f, 0.0f};        /* Object's color under ambient light */ 
-    std::array<float, 3> diffuse    = {0.0f, 0.0f, 0.0f};        /* Object's color under diffuse light */
+    std::array<float, 3> diffuse    = {1.0f, 1.0f, 1.0f};        /* Object's color under diffuse light */
     std::array<float, 3> specular   = {0.0f, 0.0f, 0.0f};        /* Object's color under specular light */
     float shininess                 = 0.0f;                      /* How shiny the object is, intensity of the specular light */
     std::array<float, 3> emit       = {0.0f, 0.0f, 0.0f};        /* Object's emission colour */
