@@ -4,8 +4,12 @@ int main(int, char**){
     /* Initialise SDL2 and OpenGL */
     SDL2_InitWin();
     OGL_InitContext(SDL2_Win);
-
     OGL_InitShaderRegistry();
+    
+    unsigned int fontHeight = 45;
+    FT_Library ft = OGL_InitFreeType();
+    FT_Face fc = OGL_LoadFont(ft, "assets/fonts/Minecraft.ttf", fontHeight);
+    std::map<char, OGL_Character> chars = OGL_LoadCharacters(fc);
 
     /* Controller creation */
     OGL_Controller* ctrl = OGL_CreateController(5.0f, 0.1f);
@@ -36,6 +40,24 @@ int main(int, char**){
     /* Hierarchy */
     OGL_AttachChild(OGL_Scene, onodePlane);
 
+    /* Plane creation */
+    OGL_Object* plane2 = OGL_CreateObject(OGL_GetShader("tex"));
+    OGL_CreateTextureQuad(*plane2->mesh);
+    OGL_LoadBitmapToObject(*plane2, "assets/a1.bmp");
+    /* Create the object node */
+    OGL_ONode* onodePlane2 = OGL_CreateNode(plane2, "plane2");
+    TRS::T(*plane2, {15.f, 0.f, 5.f});
+    TRS::R(*plane2, {0.f, -45.f, 0.f});
+    TRS::S(*plane2, {10.f, 10.f, 1.f});
+    /* Hierarchy */
+    OGL_AttachChild(OGL_Scene, onodePlane2);
+
+    /* No renderable content, if no OGL_RenderText is called with this object, nothing is rendered */
+    OGL_Object* text = OGL_CreateObject(OGL_GetShader("glyph"));
+    OGL_CreateTextQuad(*text->mesh);
+
+    // OGL_AttachChild(OGL_Scene, onodeText); // Not attached to the scene
+
     /* Main loop, and timing */
     Uint32 lastTime = SDL_GetTicks();
 
@@ -59,7 +81,29 @@ int main(int, char**){
         OGL_SetScreenBackground(0.f, 0.3f, 0.95f, 1.f);
 
         OGL_RenderVisitChildren(OGL_Scene);
-    
+
+        /* Text has to be on top of whatever is rendered, else it gets culled */
+        /* Text is rendered to screen coordinates, since we are using simple shaders along with glm::ortho (0, winwidth, 0, winheight) */
+
+        OGL_RenderText(
+            *text,
+            "Exw balei to filo sou na mou stelnei gara",
+            0.0f,     // baseline x
+            (float)fontHeight,    // height
+            1.0f,
+            {1.0f, 1.0f, 1.0f},
+            chars
+        );
+        OGL_RenderText(
+            *text,
+            "Poutana apo amerikh thn fonazoune sara",
+            0.0f,     // baseline x
+            (float)fontHeight * 2.0f,    // height
+            1.0f,
+            {1.0f, 1.0f, 1.0f},
+            chars
+        );
+        
         /* Swap frame buffers */
         SDL_GL_SwapWindow(SDL2_Win);
 

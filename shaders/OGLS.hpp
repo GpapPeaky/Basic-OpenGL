@@ -20,3 +20,6 @@ extern std::string OGLS_TRS_MVP_Lit_Blinn_Phong_TextureF;
 
 extern std::string OGLS_TRS_MVP_Lit_Blinn_Phong_Texture_AttenuatedV;
 extern std::string OGLS_TRS_MVP_Lit_Blinn_Phong_Texture_AttenuatedF;
+
+extern std::string OGLS_GlyphV;
+extern std::string OGLS_GlyphF;

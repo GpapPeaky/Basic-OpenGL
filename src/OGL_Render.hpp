@@ -31,6 +31,13 @@ void OGL_BindCameraToRenderView(OGL_Camera* cam);
 void OGL_PreDraw(GLuint graphicsPipeline);
 
 /**
+ * @brief Pre draws to the window, sets OpenGL's state for text
+ * 
+ * @param graphicsPipeline Instruct what graphics pipeline to use
+ */
+void OGL_PreDrawText(GLuint graphicsPipeline);
+
+/**
  * @brief Draws the pre-drawn assets to the window
  * 
  * @param object Vertex object to draw 

@@ -63,6 +63,34 @@ void OGL_CreateTextureQuad(OGL_VertexObject& object){
     return;
 }
 
+void OGL_CreateTextQuad(OGL_VertexObject& object){
+    glGenVertexArrays(1, &object.VAO);
+    glGenBuffers(1, &object.VBO);
+
+    glBindVertexArray(object.VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, object.VBO);
+
+    glBufferData(
+        GL_ARRAY_BUFFER,
+        sizeof(float) * 6 * 4,
+        nullptr,
+        GL_DYNAMIC_DRAW
+    );
+
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(
+        0,
+        4,
+        GL_FLOAT,
+        GL_FALSE,
+        sizeof(float) * 4,
+        nullptr
+    );
+
+    glBindVertexArray(0);
+}
+
 void OGL_LoadBitmapToObject(OGL_Object& object, const char* bitmap){
     glGenTextures(1, &object.mat.texture.texture);
     glBindTexture(GL_TEXTURE_2D, object.mat.texture.texture); /* Bind the texture, and it's type */

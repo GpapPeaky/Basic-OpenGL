@@ -1,6 +1,6 @@
 #include "OGL_Material.hpp"
 
-OGL_Material OGL_CreateMaterial(float ambient[3], float diffuse[3], float specular[3], float shininess, float  emit[3], float emissiveness){
+OGL_Material OGL_CreateMaterial(std::array<float, 3> ambient, std::array<float, 3> diffuse, std::array<float, 3> specular, float shininess, std::array<float, 3> emit, float emissiveness){
     OGL_Material mat;
 
     mat.ambient[0] = ambient[0];

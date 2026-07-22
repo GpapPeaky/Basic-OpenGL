@@ -9,28 +9,33 @@ void OGL_BindCameraToRenderView(OGL_Camera* cam){
 }
 
 void OGL_PreDraw(GLuint graphicsPipeline){
-    /* Save the current OpenGL state */
-    GLint depthTestEnabled, cullFaceEnabled;
-    glGetIntegerv(GL_DEPTH_TEST, &depthTestEnabled);
-    glGetIntegerv(GL_CULL_FACE, &cullFaceEnabled);
+    glViewport(0, 0, SDL2_WinWidth, SDL2_WinHeight);
+
+    glEnable(GL_DEPTH_TEST);
+    // glEnable(GL_CULL_FACE);
+
+    /* TexQuad disappearing issue fix, quad needs to be 2-faced */
+    /* Kinda choppy */
+    // glCullFace(GL_BACK);
+    // glFrontFace(GL_CCW);
+    // glDisable(GL_DEPTH_TEST);
+    // glDisable(GL_CULL_FACE);
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    glClipControl(GL_LOWER_LEFT, GL_ZERO_TO_ONE);
+
+    glUseProgram(graphicsPipeline);
+}
+
+void OGL_PreDrawText(GLuint graphicsPipeline){
+    glUseProgram(graphicsPipeline);
 
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
-    
-    glViewport(0, 0, SDL2_WinWidth, SDL2_WinHeight); /* Viewport is also important, and can mess things up */
 
-    glUseProgram(graphicsPipeline); /* Pipeline previously created */
-
-    /* Reset to the previous OpenGL state */
-    if(depthTestEnabled){
-        glEnable(GL_DEPTH_TEST);
-    }
-    
-    if(cullFaceEnabled){
-        glEnable(GL_CULL_FACE);
-    }
-
-    return;
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void OGL_Draw(OGL_VertexObject* object){
@@ -72,6 +77,10 @@ void OGL_SetScreenBackground(float r, float g, float b, float a){
 
 void OGL_Render(OGL_Object* object){
     OGL_PreDraw(object->mat.shader);
+
+    /* Bind tex */
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, object->mat.texture.texture);
 
     /* Send model TRS */
     glUniform3fv(glGetUniformLocation(object->mat.shader, "uTrans"),      1, object->position.data());

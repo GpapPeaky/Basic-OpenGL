@@ -11,8 +11,8 @@ OGL_Camera* OGL_CreateCamera(glm::vec3 pos, glm::vec3 up, float yaw, float pitch
 
     newCam->fov = 45.0f;
     newCam->aspect = static_cast<float>(SDL2_WinWidth) / static_cast<float>(SDL2_WinHeight); // Better to update than to cache it
-    newCam->nearPlane = 0.1f;
-    newCam->farPlane = 100.0f;
+    newCam->nearPlane = 0.5f;
+    newCam->farPlane = 1000.0f;
 
     OGL_UpdateCamera(newCam);
 

@@ -23,6 +23,7 @@ TARGET := $(BINDIR)/win.exe
 CPPFLAGS := \
     -IThirdParty/SDL2/include \
     -IThirdParty/GLAD/include \
+    -IThirdParty/freetype-2.14.3/include \
     -MMD -MP
 
 CXXFLAGS := -Wall -Wextra -std=c++17
@@ -34,7 +35,11 @@ LDLIBS := \
     -lmingw32 \
     -lSDL2main \
     -lSDL2 \
-    -lSDL2_image
+    -lSDL2_image \
+    -LThirdParty/freetype-2.14.3/objs \
+    -lfreetype
+    # RENAME GENERATED freetype.a TO libfreetype.a
+
 
 # ==========================================================
 # Source Files

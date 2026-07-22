@@ -18,6 +18,13 @@
 void OGL_CreateTextureQuad(OGL_VertexObject& object);
 
 /**
+ * @brief Creates a texture quad but foramted specifically for text
+ * 
+ * @param object Object to save the text quad
+ */
+void OGL_CreateTextQuad(OGL_VertexObject& object);
+
+/**
  * @brief Loads a texture to the texture quad
  * vertex object
  * 

@@ -61,6 +61,7 @@ void OGL_InitShaderRegistry(void){
     OGL_CreateShaderProgram("bp_attenuated_tex", OGLS_TRS_MVP_Lit_Blinn_Phong_Texture_AttenuatedV, OGLS_TRS_MVP_Lit_Blinn_Phong_Texture_AttenuatedF);
     OGL_CreateShaderProgram("bp_tex", OGLS_TRS_MVP_Lit_Blinn_Phong_TextureV, OGLS_TRS_MVP_Lit_Blinn_Phong_TextureF);
     OGL_CreateShaderProgram("tex", OGLS_TRS_MVP_TextureV, OGLS_TRS_MVP_TextureF);
+    OGL_CreateShaderProgram("glyph", OGLS_GlyphV, OGLS_GlyphF);
 }
 
 OGL_Shader OGL_GetShader(std::string id){
