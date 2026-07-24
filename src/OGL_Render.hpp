@@ -88,8 +88,9 @@ void OGL_SetScreenBackground(float r, float g, float b, float a);
  *  uColor - Object coloring, only if the object as no UV, and the shader uses it
  * 
  * @param object Object to render
+ * @param uniformsMissing Boolean if we want to pass more uniforms to an object, BUT we need to call OGL_Draw(obj.mesh) ourselves later!
  */
-void OGL_Render(OGL_Object* object);
+void OGL_Render(OGL_Object* object, bool uniformsMissing = false);
 
 /**
  * @brief Vist and render all of the given

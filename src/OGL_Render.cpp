@@ -75,7 +75,7 @@ void OGL_SetScreenBackground(float r, float g, float b, float a){
     return;
 }
 
-void OGL_Render(OGL_Object* object){
+void OGL_Render(OGL_Object* object, bool uniformsMissing){
     OGL_PreDraw(object->mat.shader);
 
     /* Bind tex */
@@ -111,7 +111,9 @@ void OGL_Render(OGL_Object* object){
     glUniform1f(glGetUniformLocation (object->mat.shader,  "uMatEmitIntensity"),    object->mat.emissiveness);
     glUniform1f(glGetUniformLocation (object->mat.shader,  "uMatShininess"),        object->mat.shininess);
     
-    OGL_DrawObject(object->mesh);
+    if(!uniformsMissing){ /* If we want to add more uniforms we simply call this manually ourselves */
+        OGL_DrawObject(object->mesh);
+    }
     
     return;
 }
