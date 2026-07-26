@@ -21,8 +21,8 @@ typedef struct OGL_Controller{
     int mouseZoom = 0;                   /* Mouse has an effect in the camera's 'z' when scrolling */
 
     int firstMouse;                      /* Flag to avoid sudden mouse jumps on input */
-    float lastX;                         /* Last mouse screen X */
-    float lastY;                         /* Last mouse screen Y */
+    int lastX;                         /* Last mouse screen X */
+    int lastY;                         /* Last mouse screen Y */
 }OGL_Controller;
 
 /**

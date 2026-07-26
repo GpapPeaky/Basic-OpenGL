@@ -15,8 +15,8 @@ OGL_Controller* OGL_CreateController(float speed, float sensitivity) {
     newController->downwardScancode = NULL;
 
     newController->firstMouse = 1;
-    newController->lastX = 0.0f;
-    newController->lastY = 0.0f;
+    newController->lastX = 0;
+    newController->lastY = 0;
 
     return newController;
 }
