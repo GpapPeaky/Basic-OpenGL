@@ -85,3 +85,41 @@ glm::mat4 OGL_GetModel(const OGL_Object& obj){
 
     return model;
 }
+
+void OGL_CreateLineMesh(OGL_VertexObject& mesh, const std::vector<glm::vec3>& vertices){
+    glGenVertexArrays(1, &mesh.VAO);
+    glGenBuffers(1, &mesh.VBO);
+
+    glBindVertexArray(mesh.VAO);
+
+    glBindBuffer(
+        GL_ARRAY_BUFFER,
+        mesh.VBO
+    );
+
+    glBufferData(
+        GL_ARRAY_BUFFER,
+        vertices.size() * sizeof(glm::vec3),
+        vertices.data(),
+        GL_STATIC_DRAW
+    );
+
+
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(
+        0,
+        3,
+        GL_FLOAT,
+        GL_FALSE,
+        sizeof(glm::vec3),
+        nullptr
+    );
+
+
+    glBindVertexArray(0);
+
+
+    mesh.verticesCount =
+        (GLuint)vertices.size();
+}

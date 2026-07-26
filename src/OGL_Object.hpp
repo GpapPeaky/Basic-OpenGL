@@ -52,7 +52,7 @@ typedef struct OGL_VertexObject{
     /* We can omit the extra VBO by only using one */
     // GLuint RGBVBO; /* colours: vertex buffer object */
     GLuint IBO; /* Index Buffer Object, for vertices rendering order (we can skip vertices repeating in quads like this) */
-    Uint8 verticesCount; /* Count of vertices for when the drawing function is called */
+    GLuint verticesCount; /* Count of vertices for when the drawing function is called */
 }OGL_VertexObject;
 
 /**
@@ -111,3 +111,11 @@ void OGL_AssignMaterialToObject(OGL_Object* obj, OGL_Material mat);
  * @returns Model matrix
  */
 glm::mat4 OGL_GetModel(const OGL_Object& obj);
+
+/**
+ * @brief Creates a line mesh object
+ * 
+ * @param mesh Mesh to edit
+ * @param vertices Vertices to include to object mesh
+ */
+void OGL_CreateLineMesh(OGL_VertexObject& mesh, const std::vector<glm::vec3>& vertices);
